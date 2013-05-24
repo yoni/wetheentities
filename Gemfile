@@ -26,6 +26,9 @@ end
 gem 'jquery-rails'
 gem 'calais'
 
+# Alchemy requirements:
+gem 'xml-simple'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

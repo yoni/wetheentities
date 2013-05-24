@@ -1,0 +1,59 @@
+==================================
+ AlchemyAPI RUBY SDK: version 0.8
+==================================
+
+These are RUBY code examples for the AlchemyAPI SDK.
+
+
+RUNNING EXAMPLES
+
+Several code examples are included to illustrate using the AlchemyAPI
+for named entity extraction, text classification, language identification,
+and other tasks.
+
+All code samples are within the "example" directory.
+
+To run these code samples you must first edit the (example/api_key.txt) file, 
+adding your assigned AlchemyAPI key.  You must also install the AlchemyAPI 
+Ruby module (see ../README for installation instructions).
+
+Code Samples:
+
+   1. Entity Extraction: ruby entities.rb
+
+   2. Concept Tagging: ruby concepts.rb
+
+   3. Keyword Extraction: ruby keywords.rb
+
+   4. Text Categorization: ruby categories.rb
+
+   5. Language Identification: ruby language.rb
+
+   6. HTML Text Extraction: ruby text_extract.rb
+
+   7. HTML Structured Content Scraping: ruby constraint_queries.rb
+
+   8. Microformats Extraction: ruby microformats.rb
+
+   9. RSS / ATOM Feed Links Extraction: ruby feed_links.rb
+
+  10. JSON output mode examples: ruby json_example.rb
+
+  11. Sentiment Analysis examples: ruby sentiment.rb
+  
+  12. Relations Extraction examples: ruby relations.rb
+
+  13. Parameters object examples: ruby entity_param_example.rb
+  
+  14. Author Extraction: ruby author.rb
+
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2009-2012 Orchestr8, LLC.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Ruby itself, either Ruby version 1.8 or,
+at your option, any later version of Ruby 1.8 you may have available.
+
+
