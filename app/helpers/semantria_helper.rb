@@ -1,0 +1,6 @@
+require 'semantria'
+module SemantriaHelper
+  CONSUMER_KEY = ENV['SEMANTRIA_CONSUMER_KEY']
+  CONSUMER_SECRET = ENV['SEMANTRIA_CONSUMER_SECRET']
+end
+
