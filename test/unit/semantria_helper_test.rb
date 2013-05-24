@@ -19,67 +19,14 @@ class SemantriaHelperTest < ActionView::TestCase
         'On this day in 1786 - In New York City  commercial ice cream was manufactured for the first time.'
     ]
 
-    class SessionCallbackHandler < CallbackHandler
-      def onRequest(sender, args)
-        #print "Request: ", args, "\n"
-      end
-
-      def onResponse(sender, args)
-        #print "Response: ", args, "\n"
-      end
-
-      def onError(sender, args)
-        print 'Error: ', args, "\n"
-      end
-
-      def onDocsAutoResponse(sender, args)
-        #print "DocsAutoResponse: ", args.length, args, "\n"
-      end
-
-      def onCollsAutoResponse(sender, args)
-        #print "CollsAutoResponse: ", args.length, args, "\n"
-      end
-    end
-
-    # Initializes new session with the keys and app name.
-    # We also will use compression.
-    session = Session.new(SemantriaHelper::CONSUMER_KEY, SemantriaHelper::CONSUMER_SECRET, 'TestApp', true)
-    # Initialize session callback handlers
-    callback = SessionCallbackHandler.new()
-    session.setCallbackHandler(callback)
-
-    initial_texts.each do |text|
+    documents = initial_texts.map do |text|
       # Creates a sample document which need to be processed on Semantria
       # Unique document ID
       # Source text which need to be processed
-      doc = {'id' => rand(10 ** 10).to_s.rjust(10, '0'), 'text' => text}
-      # Queues document for processing on Semantria service
-      status = session.queueDocument(doc)
-      # Check status from Semantria service
-      assert_equal status, 202
-      if status == 202
-        Rails.logger.info "Document #{doc['id']} queued successfully."
-      end
+      {'id' => rand(10 ** 10).to_s.rjust(10, '0'), 'text' => text}
     end
 
-    # Count of the sample documents which need to be processed on Semantria
-    length = initial_texts.length
-    results = []
-
-    while results.length < length
-      Rails.logger.info 'Please wait 10 sec for documents...'
-      # As Semantria isn't real-time solution you need to wait some time before getting of the processed results
-      # In real application here can be implemented two separate jobs, one for queuing of source data another one for retrieving
-      # Wait ten seconds while Semantria process queued document
-      sleep(10)
-      # Requests processed results from Semantria service
-      status = session.getProcessedDocuments()
-      # Check status from Semantria service
-      status.is_a? Array and status.each do |object|
-        results.push(object)
-      end
-      print status.length, ' documents received successfully.', "\r\n"
-    end
+    results = SemantriaHelper.enhance documents
 
     assert(!results.empty?)
 
