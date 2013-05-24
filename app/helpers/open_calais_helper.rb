@@ -1,6 +1,6 @@
 require 'calais'
 
-module OpencalaisHelper
+module OpenCalaisHelper
   LICENSE_ID = ENV['OPEN_CALAIS_LICENSE_ID']
 
   def enhance(content)
