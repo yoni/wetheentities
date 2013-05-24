@@ -5,23 +5,23 @@ module SemantriaHelper
 
   class SessionCallbackHandler < CallbackHandler
     def onRequest(sender, args)
-      #print "Request: ", args, "\n"
+      Rails.logger.info "Semantria Request: #{args}"
     end
 
     def onResponse(sender, args)
-      #print "Response: ", args, "\n"
+      Rails.logger.info "Semantria Response: #{args}"
     end
 
     def onError(sender, args)
-      print 'Error: ', args, "\n"
+      Rails.logger.info "Semantria Error: #{args}"
     end
 
     def onDocsAutoResponse(sender, args)
-      #print "DocsAutoResponse: ", args.length, args, "\n"
+      Rails.logger.info "Semantria DocsAutoResponse: #{args.length}, #{args}"
     end
 
     def onCollsAutoResponse(sender, args)
-      #print "CollsAutoResponse: ", args.length, args, "\n"
+      Rails.logger.info "Semantria CollsAutoResponse: #{args.length}, #{args}"
     end
   end
 
