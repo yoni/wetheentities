@@ -20,3 +20,4 @@
 
 # Ignore RVM droppings
 .rvmrc
+.tddium*
