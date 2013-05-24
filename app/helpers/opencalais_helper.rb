@@ -6,7 +6,7 @@ module OpencalaisHelper
   def enhance(content)
     Calais.enlighten(
         :content => content,
-        :content_type => :raw,
+        :content_type => :html,
         :license_id => LICENSE_ID
     )
   end

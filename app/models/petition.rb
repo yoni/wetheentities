@@ -1,5 +1,16 @@
+require 'we_the_people'
 class Petition
 
   attr_accessor :id
+
+  def self.find(id)
+    petition = WeThePeople::Resources::Petition.find(id)
+    title_and_body = "<html><title>#{petition.title}<title><body>#{petition.body}</body></html>"
+    open_calais_result = OpencalaisHelper.enhance title_and_body
+    {
+        :petition => petition,
+        :open_calais => open_calais_result
+    }
+  end
 
 end
