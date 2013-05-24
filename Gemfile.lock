@@ -83,6 +83,8 @@ GEM
     rake (10.0.4)
     rdoc (3.12.2)
       json (~> 1.4)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     ruby-prof (0.13.0)
     sass (3.2.9)
     sass-rails (3.2.6)
@@ -104,6 +106,10 @@ GEM
     uglifier (2.1.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
+    we_the_people (0.0.4)
+      activesupport (>= 3.0.0)
+      json
+      rest-client
     xml-simple (1.1.2)
 
 PLATFORMS
@@ -119,4 +125,5 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   sqlite3
   uglifier (>= 1.0.3)
+  we_the_people (>= 0.0.4)
   xml-simple

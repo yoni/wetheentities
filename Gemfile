@@ -25,6 +25,7 @@ end
 
 gem 'jquery-rails'
 gem 'calais'
+gem 'we_the_people', '>= 0.0.4'
 
 # Alchemy requirements:
 gem 'xml-simple'
