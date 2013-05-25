@@ -2,6 +2,7 @@ require 'semantria'
 module SemantriaHelper
   CONSUMER_KEY = ENV['SEMANTRIA_CONSUMER_KEY']
   CONSUMER_SECRET = ENV['SEMANTRIA_CONSUMER_SECRET']
+  WAIT_TIME=5
 
   class SessionCallbackHandler < CallbackHandler
     def onRequest(sender, args)
@@ -55,7 +56,7 @@ module SemantriaHelper
       # As Semantria isn't real-time solution you need to wait some time before getting of the processed results
       # In real application here can be implemented two separate jobs, one for queuing of source data another one for retrieving
       # Wait ten seconds while Semantria process queued document
-      sleep(10)
+      sleep(WAIT_TIME)
       # Requests processed results from Semantria service
       status = session.getProcessedDocuments()
       # Check status from Semantria service
