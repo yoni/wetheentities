@@ -21,3 +21,6 @@
 # Ignore RVM droppings
 .rvmrc
 .tddium*
+
+# Foreman environment variables
+.env
