@@ -1,7 +1,12 @@
 <h1>We the Entities</h1>
 <p>We the Entities is a RESTful API for analyzing the <a href="https://petitions.whitehouse.gov/developers">We the People API</a>'s petition text. It leverages services
 like Open Calais, AlchemyAPI, and Semantria to extract information from the petition title and body.</p>
-<h4>Example usage:</h4>
+<h4>Usage</h4>
 <pre>
-    <%= link_to petition_path(:id=> '1234', :only_path => false), petition_path(:id=> '1234', :only_path => false) %>
+    <%= petition_path(:id=> ':id') %><b>[.json]</b>
+</pre>
+<h4>Examples</h4>
+<pre>
+    <%= link_to @example_path, @example_path %>
+    <%= link_to @example_json_path, @example_json_path %>
 </pre>
