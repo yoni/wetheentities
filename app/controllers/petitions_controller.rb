@@ -1,5 +1,7 @@
 class PetitionsController < ApplicationController
 
+  caches_page :show
+
   def show
     @id = params[:id]
     @petition = Petition.find(@id)
