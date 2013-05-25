@@ -2,7 +2,8 @@ require 'semantria'
 module SemantriaHelper
   CONSUMER_KEY = ENV['SEMANTRIA_CONSUMER_KEY']
   CONSUMER_SECRET = ENV['SEMANTRIA_CONSUMER_SECRET']
-  WAIT_TIME=5
+  POLL_SECONDS = 2
+  TIMEOUT_SECONDS = 10
 
   class SessionCallbackHandler < CallbackHandler
     def onRequest(sender, args)
@@ -51,12 +52,13 @@ module SemantriaHelper
     length = documents.length
     results = []
 
+    total_poll_time = 0
     while results.length < length
-      Rails.logger.info 'Please wait 10 sec for documents...'
       # As Semantria isn't real-time solution you need to wait some time before getting of the processed results
       # In real application here can be implemented two separate jobs, one for queuing of source data another one for retrieving
-      # Wait ten seconds while Semantria process queued document
-      sleep(WAIT_TIME)
+      # Wait while Semantria process queued document
+      Rails.logger.info "Waiting #{POLL_SECONDS} sec between Semantria polling..."
+      sleep(POLL_SECONDS)
       # Requests processed results from Semantria service
       status = session.getProcessedDocuments()
       # Check status from Semantria service
@@ -64,6 +66,11 @@ module SemantriaHelper
         results.push(object)
       end
       Rails.logger.info "#{status.length} documents received successfully."
+      total_poll_time += POLL_SECONDS
+      if total_poll_time > TIMEOUT_SECONDS
+        Rails.logger.info "Reached timeout after polling for #{total_poll_time} seconds. Returning results."
+        return results
+      end
     end
 
     results

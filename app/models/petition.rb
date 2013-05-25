@@ -6,7 +6,7 @@ class Petition
 
   def self.find(id)
     petition = WeThePeople::Resources::Petition.find(id)
-    title_and_body = "<html><title>#{petition.title}<title><body>#{petition.body}</body></html>"
+    title_and_body = "#{petition.title}\n\n#{petition.body}"
     open_calais_result = OpenCalaisHelper.enhance title_and_body
     semantria_result = SemantriaHelper.enhance [{:id => petition.id, :text => title_and_body}]
     {
