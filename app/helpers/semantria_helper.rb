@@ -3,7 +3,7 @@ module SemantriaHelper
   CONSUMER_KEY = ENV['SEMANTRIA_CONSUMER_KEY']
   CONSUMER_SECRET = ENV['SEMANTRIA_CONSUMER_SECRET']
   POLL_SECONDS = 2
-  TIMEOUT_SECONDS = 10
+  TIMEOUT_SECONDS = 20
 
   class SessionCallbackHandler < CallbackHandler
     def onRequest(sender, args)
