@@ -23,6 +23,8 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'anjlab-bootstrap-rails', '>= 2.3', :require => 'bootstrap-rails'
+
 gem 'jquery-rails'
 gem 'calais'
 gem 'we_the_people', '>= 0.0.4'
