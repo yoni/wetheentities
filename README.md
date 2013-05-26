@@ -32,7 +32,7 @@ To report problems, ask questions, track enhancements, etc. please use Github [i
 We the Entities relies on several external APIs in order to work, including:
 * [Semantria](https://semantria.com/)
 * [Open Calais](http://www.opencalais.com/)
-* AlchemyAPI
+* [AlchemyAPI](http://www.alchemyapi.com/)
 
 In order to run the application on a local environment, you must set API keys for all three services:
 
