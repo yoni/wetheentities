@@ -40,3 +40,8 @@ In order to run the application on a local environment, you must set API keys fo
     OPEN_CALAIS_LICENSE_ID=ABC123
     SEMANTRIA_CONSUMER_KEY=ABD123
     SEMANTRIA_CONSUMER_SECRET=DEF456
+
+
+#### License
+
+This software is distributed under the MIT License. For more information, see LICENSE
