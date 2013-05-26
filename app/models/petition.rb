@@ -8,7 +8,8 @@ class Petition
     petition = WeThePeople::Resources::Petition.find(id)
     title_and_body = "#{petition.title}  #{petition.body}"
     open_calais_result = OpenCalaisHelper.enhance title_and_body
-    semantria_result = SemantriaHelper.enhance [{:id => petition.id, :text => title_and_body}]
+    semantria_result = SemantriaHelper.enhance({:id => petition.id, :text => title_and_body})
+
     {
         :id => petition.id,
         :petition => petition,

@@ -27,7 +27,13 @@ module SemantriaHelper
     end
   end
 
-  def enhance(documents)
+  def enhance(document)
+    results = enhance_multiple([document])
+    results.empty? ? nil : results[0]
+  end
+  module_function :enhance
+
+  def enhance_multiple(documents)
     # Initializes new session with the keys and app name.
     # We also will use compression.
     # Opening a new session for each request so that we don't have any concurrency issues. We might relax this
@@ -75,6 +81,6 @@ module SemantriaHelper
 
     results
   end
-  module_function :enhance
+  module_function :enhance_multiple
 end
 

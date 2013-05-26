@@ -26,7 +26,7 @@ class SemantriaHelperTest < ActionView::TestCase
       {'id' => rand(10 ** 10).to_s.rjust(10, '0'), 'text' => text}
     end
 
-    results = SemantriaHelper.enhance documents
+    results = SemantriaHelper.enhance_multiple documents
 
     assert(!results.empty?)
 

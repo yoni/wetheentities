@@ -32,6 +32,9 @@ gem 'we_the_people', '>= 0.0.4'
 # Alchemy requirements:
 gem 'xml-simple'
 
+gem 'd3-rails'
+gem 'coderay'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
