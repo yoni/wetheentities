@@ -7,6 +7,8 @@ class AlchemyHelperTest < ActionView::TestCase
   MICROFORMATS_URL = 'http://microformats.org/wiki/hcard'
   STRING_WITH_NAMES_ENTITIES = "Hello my name is Bob.  I am speaking to you at this very moment.  Are you listening to me, Bob?"
 
+  ENABLE = false
+
   def file_path(filename)
     "#{Rails.root}/test/unit/alchemy/data/#{filename}"
   end
@@ -17,6 +19,10 @@ class AlchemyHelperTest < ActionView::TestCase
 
     # Load a HTML document to analyze.
     @htmlFile = File.readlines(file_path('example.html')).map {|l| l.strip}
+
+    if !ENABLE
+      skip 'Disabling AlchemyAPI tests in order to avoid hitting their daily API limit.'
+    end
   end
 
   test 'author' do
