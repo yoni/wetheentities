@@ -1,4 +1,6 @@
 class ExamplesController < ApplicationController
+  def index
+  end
   def sentiment
     @js_source = 'example_javascripts/sentiment.js'
     js_file_path = Rails.root.join('public', @js_source)

@@ -7,6 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<p><%= link_to "Home", :root %> | <%= link_to "Examples", :controller => :examples, :action => :index %></p>
 
 <%= yield %>
 
