@@ -8,8 +8,8 @@ class PetitionsController < ApplicationController
 
     respond_to do |format|
       format.html {
-        pretty_json = JSON.pretty_generate(@petition)
-        @json_highlighted = CodeRay.scan(pretty_json, :json).div
+        @json = JSON.pretty_generate(@petition)
+        @json_highlighted = CodeRay.scan(@json, :json).div
       }
       format.json {
         render :json => @petition.to_json
