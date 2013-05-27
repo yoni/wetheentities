@@ -1,5 +1,4 @@
 $.getJSON('/petitions/51942b9b2f2c888e2f00000c.json', function(data) {
-    window.data = data;
 
     d3.select('#petition')
         .append('h5')
