@@ -14,9 +14,4 @@ class ExamplesControllerTest < ActionController::TestCase
     get :sentiment
     assert_response :success
   end
-
-  test "should get geo" do
-    get :geo
-    assert_response :success
-  end
 end
