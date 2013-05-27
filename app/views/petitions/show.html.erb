@@ -1,5 +1,44 @@
 <p>Petition ID: <%= @petition[:id] %></p>
 <p>Petition Title: <%= @petition[:petition].title %></p>
+<h3>Open Calais</h3>
+<h5>Topics</h5>
+<% @petition[:open_calais].select{ |k, v| v['_typeGroup'] == 'topics'}.each do |key, topic| %>
+    <table class='table'>
+        <thead>
+        <tr>
+            <th>Topic</th>
+            <th>Score</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><%= topic['categoryName'] %></td>
+            <td><%= topic['score'] %></td>
+        </tr>
+        </tbody>
+    </table>
+<% end %>
+<h5>Entities</h5>
+<table class='table'>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Relevance</th>
+        <th>Location</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @petition[:open_calais].select{ |k, v| v['_typeGroup'] == 'entities'}.each do |key, entity| %>
+    <tr>
+        <td><%= entity['name'] %></td>
+        <td><%= entity['_type'] %></td>
+        <td><%= entity['relevance'] %></td>
+        <td><%= entity['resolutions'] ? "#{entity['resolutions'][0]['latitude']}, #{entity['resolutions'][0]['longitude']}": 'NA' %></td>
+    </tr>
+    <% end %>
+    </tbody>
+</table>
 <h3>Semantria</h3>
 <% if(@petition[:semantria]['summary']) %>
     <h5>Summary</h5>
@@ -128,3 +167,6 @@
 <h3>Raw JSON</h3>
 <%= @json_highlighted.html_safe %>
 
+<script>
+    var petition = <%= @json.html_safe %>;
+</script>
