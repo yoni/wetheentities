@@ -7,12 +7,14 @@ class PetitionsController < ApplicationController
     @petition = Petition.find(@id)
 
     respond_to do |format|
-      format.html
-      format.json{
+      format.html {
+        pretty_json = JSON.pretty_generate(@petition)
+        @json_highlighted = CodeRay.scan(pretty_json, :json).div
+      }
+      format.json {
         render :json => @petition.to_json
       }
     end
-
   end
 
 end

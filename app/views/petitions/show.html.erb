@@ -1,5 +1,130 @@
-<h1>Petition ID: <%= @petition[:id] %></h1>
-<h1>Open Calais</h1>
-<%= @petition[:open_calais] %>
-<h1>Semantria</h1>
-<%= @petition[:semantria] %>
+<p>Petition ID: <%= @petition[:id] %></p>
+<p>Petition Title: <%= @petition[:petition].title %></p>
+<h3>Semantria</h3>
+<% if(@petition[:semantria]['summary']) %>
+    <h5>Summary</h5>
+    <p><%= @petition[:semantria]['summary'] %></p>
+<% end %>
+<% if(@petition[:semantria]['phrases']) %>
+    <h5>Phrases</h5>
+    <table class='table'>
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Sentiment Score</th>
+            <th>Sentiment Polarity</th>
+            <th>Strength Score</th>
+            <th>Is Negated</th>
+            <th>Negating Phrase</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @petition[:semantria]['phrases'].each do |phrase| %>
+            <tr class="
+            <%= phrase['sentiment_polarity'] == 'negative' ? 'error' : '' %>
+            <%= phrase['sentiment_polarity'] == 'positive' ? 'success' : '' %>
+            ">
+                <td><%= phrase['title'] %></td>
+                <td><%= phrase['type'] %></td>
+                <td><%= phrase['sentiment_score'] %></td>
+                <td><%= phrase['sentiment_polarity'] %></td>
+                <td><%= phrase['strength_score'] %></td>
+                <td><%= phrase['is_negated'] %></td>
+                <td><%= phrase['negating_phrase'] %></td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+<% end %>
+<% if(@petition[:semantria]['themes']) %>
+    <h5>Themes</h5>
+    <table class='table'>
+        <thead>
+        <tr>
+            <th>Theme</th>
+            <th>Sentiment Score</th>
+            <th>Sentiment Polarity</th>
+            <th>Strength Score</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @petition[:semantria]['themes'].each do |theme| %>
+            <tr class="
+            <%= theme['sentiment_polarity'] == 'negative' ? 'error' : '' %>
+            <%= theme['sentiment_polarity'] == 'positive' ? 'success' : '' %>
+            ">
+                <td><%= theme['title'] %></td>
+                <td><%= theme['sentiment_score'] %></td>
+                <td><%= theme['sentiment_polarity'] %></td>
+                <td><%= theme['strength_score'] %></td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+<% end %>
+<% if(@petition[:semantria]['entities']) %>
+    <h5>Entities</h5>
+    <% @petition[:semantria]['entities'].each do |entity| %>
+        <div class="row">
+            <div class="span2">
+                <%= entity['title'] %>
+            </div>
+            <div class="span10">
+                <table class='table'>
+                    <thead>
+                    <tr>
+                        <th>Entity Type</th>
+                        <th>Title</th>
+                        <th>Confident</th>
+                        <th>Evidence</th>
+                        <th>Sentiment Polarity</th>
+                        <th>Sentiment Score</th>
+                        <th>Is About</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="
+                        <%= entity['sentiment_polarity'] == 'negative' ? 'error' : '' %>
+                        <%= entity['sentiment_polarity'] == 'positive' ? 'success' : '' %>
+                    ">
+                        <td><%= entity['entity_type'] %></td>
+                        <td><%= entity['title'] %></td>
+                        <td><%= entity['confident'] %></td>
+                        <td><%= entity['evidence'] %></td>
+                        <td><%= entity['sentiment_polarity'] %></td>
+                        <td><%= entity['sentiment_score'] %></td>
+                        <td><%= entity['is_about'] %></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class='table'>
+                    <thead>
+                    <tr>
+                        <th>Theme</th>
+                        <th>Sentiment Score</th>
+                        <th>Sentiment Polarity</th>
+                        <th>Strength Score</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% entity['themes'].each do |theme| %>
+                        <tr class="
+                            <%= entity['sentiment_polarity'] == 'negative' ? 'error' : '' %>
+                            <%= entity['sentiment_polarity'] == 'positive' ? 'success' : '' %>
+                        ">
+                            <td><%= theme['title'] %></td>
+                            <td><%= theme['sentiment_score'] %></td>
+                            <td><%= theme['sentiment_polarity'] %></td>
+                            <td><%= theme['strength_score'] %></td>
+                        </tr>
+                    <% end %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <% end %>
+<% end %>
+<h3>Raw JSON</h3>
+<%= @json_highlighted.html_safe %>
+
