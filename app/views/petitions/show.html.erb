@@ -25,7 +25,9 @@
         <th>Name</th>
         <th>Type</th>
         <th>Relevance</th>
-        <th>Location</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Map</th>
     </tr>
     </thead>
     <tbody>
@@ -34,7 +36,19 @@
         <td><%= entity['name'] %></td>
         <td><%= entity['_type'] %></td>
         <td><%= entity['relevance'] %></td>
-        <td><%= entity['resolutions'] ? "#{entity['resolutions'][0]['latitude']}, #{entity['resolutions'][0]['longitude']}": 'NA' %></td>
+        <% if entity['resolutions'] %>
+            <td><%= entity['resolutions'][0]['latitude'] %></td>
+            <td><%= entity['resolutions'][0]['longitude'] %></td>
+            <td>
+                <iframe width='200' height='200' frameBorder='0'
+                        src="http://a.tiles.mapbox.com/v3/bmesh.map-ryb6e7uw.html#3/<%= entity['resolutions'][0]['latitude'] %>/<%= entity['resolutions'][0]['longitude'] %>">
+                </iframe>
+            </td>
+        <% else %>
+            <td></td>
+            <td></td>
+            <td></td>
+        <% end %>
     </tr>
     <% end %>
     </tbody>
