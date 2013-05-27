@@ -1,6 +1,15 @@
-<p>Petition ID: <%= @petition[:id] %></p>
-<p>Petition Title: <%= @petition[:petition].title %></p>
-<h3>Open Calais</h3>
+<h3>We the Entities Petition Analysis</h3>
+The following is the original petition, the Open Calais analysis, and the Semantria analysis for the petition.
+<h3>Petition</h3>
+<h5>ID</h5>
+<%= @petition[:id] %></p>
+<h5>Title</h5>
+<p><%= @petition[:petition].title %></p>
+<h5>Body</h5>
+<p><%= @petition[:petition].body %></p>
+<h5>Issues</h5>
+<p><%= @petition[:petition].issues.map{|issue| issue.name}.join(', ') %></p>
+<h3>Open Calais Analysis</h3>
 <h5>Topics</h5>
 <% @petition[:open_calais].select{ |k, v| v['_typeGroup'] == 'topics'}.each do |key, topic| %>
     <table class='table'>
@@ -53,7 +62,7 @@
     <% end %>
     </tbody>
 </table>
-<h3>Semantria</h3>
+<h3>Semantria Analysis</h3>
 <% if(@petition[:semantria]['summary']) %>
     <h5>Summary</h5>
     <p><%= @petition[:semantria]['summary'] %></p>
