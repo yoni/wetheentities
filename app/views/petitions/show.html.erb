@@ -11,22 +11,22 @@ The following is the original petition, the Open Calais analysis, and the Semant
 <p><%= @petition[:petition].issues.map{|issue| issue.name}.join(', ') %></p>
 <h3>Open Calais Analysis</h3>
 <h5>Topics</h5>
-<% @petition[:open_calais].select{ |k, v| v['_typeGroup'] == 'topics'}.each do |key, topic| %>
-    <table class='table'>
-        <thead>
-        <tr>
-            <th>Topic</th>
-            <th>Score</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><%= topic['categoryName'] %></td>
-            <td><%= topic['score'] %></td>
-        </tr>
-        </tbody>
-    </table>
-<% end %>
+<table class='table'>
+    <thead>
+    <tr>
+        <th>Topic</th>
+        <th>Score</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @petition[:open_calais].select{ |k, v| v['_typeGroup'] == 'topics'}.each do |key, topic| %>
+    <tr>
+        <td><%= topic['categoryName'] %></td>
+        <td><%= topic['score'] %></td>
+    </tr>
+    <% end %>
+    </tbody>
+</table>
 <h5>Entities</h5>
 <table class='table'>
     <thead>
