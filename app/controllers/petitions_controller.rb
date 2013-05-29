@@ -17,4 +17,18 @@ class PetitionsController < ApplicationController
     end
   end
 
+  private
+
+  def class_from_sentiment(entity)
+    case entity['sentiment_polarity']
+      when 'negative'
+        'error'
+      when 'positive'
+        'success'
+      else
+        ''
+    end
+  end
+  helper_method :class_from_sentiment
+
 end

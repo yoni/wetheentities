@@ -83,10 +83,7 @@ The following is the original petition, the Open Calais analysis, and the Semant
         </thead>
         <tbody>
         <% @petition[:semantria]['phrases'].each do |phrase| %>
-            <tr class="
-            <%= phrase['sentiment_polarity'] == 'negative' ? 'error' : '' %>
-            <%= phrase['sentiment_polarity'] == 'positive' ? 'success' : '' %>
-            ">
+            <tr class="<%= class_from_sentiment phrase %>">
                 <td><%= phrase['title'] %></td>
                 <td><%= phrase['type'] %></td>
                 <td><%= phrase['sentiment_score'] %></td>
@@ -112,10 +109,7 @@ The following is the original petition, the Open Calais analysis, and the Semant
         </thead>
         <tbody>
         <% @petition[:semantria]['themes'].each do |theme| %>
-            <tr class="
-            <%= theme['sentiment_polarity'] == 'negative' ? 'error' : '' %>
-            <%= theme['sentiment_polarity'] == 'positive' ? 'success' : '' %>
-            ">
+            <tr class="<%= class_from_sentiment theme %>">
                 <td><%= theme['title'] %></td>
                 <td><%= theme['sentiment_score'] %></td>
                 <td><%= theme['sentiment_polarity'] %></td>
@@ -146,10 +140,7 @@ The following is the original petition, the Open Calais analysis, and the Semant
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="
-                        <%= entity['sentiment_polarity'] == 'negative' ? 'error' : '' %>
-                        <%= entity['sentiment_polarity'] == 'positive' ? 'success' : '' %>
-                    ">
+                    <tr class="<%= class_from_sentiment entity %>">
                         <td><%= entity['entity_type'] %></td>
                         <td><%= entity['title'] %></td>
                         <td><%= entity['confident'] %></td>
@@ -171,10 +162,7 @@ The following is the original petition, the Open Calais analysis, and the Semant
                     </thead>
                     <tbody>
                     <% entity['themes'].each do |theme| %>
-                        <tr class="
-                            <%= entity['sentiment_polarity'] == 'negative' ? 'error' : '' %>
-                            <%= entity['sentiment_polarity'] == 'positive' ? 'success' : '' %>
-                        ">
+                        <tr class="<%= class_from_sentiment theme %>">
                             <td><%= theme['title'] %></td>
                             <td><%= theme['sentiment_score'] %></td>
                             <td><%= theme['sentiment_polarity'] %></td>
