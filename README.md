@@ -1,9 +1,19 @@
 ## We the Entities
 
-We the Entities is a RESTful web service for augmenting the [We the People](https://petitions.whitehouse.gov/) petition
-text with rich entities, sentiment analysis, and more.
+We the Entities adds rich entities, sentiment analysis, and other text-based
+analysis on petitions taken from the White House's [We the People](https://petitions.whitehouse.gov/)
+application.
 
-#### Live instance of the app
+It provides a summary of the "entities" (e.g. people, places, organizations),
+themes, and phrases from petitions. It also discerns the sentiment of the
+author towards these entities (i.e. negative, neutral or positive).
+
+We the Entities includes a petition browser and a Developer API.
+
+Under the covers, We the Entities leverages text analysis services like Open Calais, AlchemyAPI, and Semantria
+to extract information from the petition title and body.
+
+#### See the live instance of the app for examples
 
 http://wetheentities.herokuapp.com/
 

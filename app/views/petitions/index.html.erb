@@ -1,0 +1,11 @@
+<h3>Petitions</h3>
+<p>Click on a petition title to show the petition text analysis.</p>
+<p>
+<ul>
+    <% @petitions.each do |petition| %>
+        <li>
+            <%= link_to petition.title, :controller => :petitions, :action => :show, :id => petition.id %>
+        </li>
+    <% end %>
+</ul>
+</p>

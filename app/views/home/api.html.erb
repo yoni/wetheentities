@@ -1,0 +1,20 @@
+<h3>We the Entities Developer API</h3>
+<pre>
+    <%= petition_path(:id=> ':id') %><b>[.json]</b>
+</pre>
+<p>For example, to retrieve the text analysis for petition with id '<%= @petition_id %>':</p>
+<pre>
+    <%= link_to @example_path, @example_path %>
+    <%= link_to @example_json_path, @example_json_path %>
+</pre>
+<h5>JavaScript API client examples</h5>
+<ul>
+    <li>
+        <%= link_to "Sentiment", :controller => :examples, :action => :sentiment %>
+    </li>
+    <li>
+        <%= link_to "Geo", :controller => :examples, :action => :geo%>
+    </li>
+</ul>
+
+<a href="https://github.com/yoni/wetheentities"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>

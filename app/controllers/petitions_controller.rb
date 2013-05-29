@@ -1,3 +1,4 @@
+require 'we_the_people'
 class PetitionsController < ApplicationController
 
   caches_page :show
@@ -13,6 +14,16 @@ class PetitionsController < ApplicationController
       }
       format.json {
         render :json => @petition.to_json
+      }
+    end
+  end
+
+  def index
+    @petitions = WeThePeople::Resources::Petition.all
+    respond_to do |format|
+      format.html
+      format.json {
+        render :json => @petitions.to_json
       }
     end
   end

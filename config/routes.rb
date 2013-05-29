@@ -1,9 +1,11 @@
 Wetheentities::Application.routes.draw do
-  get "examples/index"
-  get "examples/sentiment"
-  get "examples/geo"
+  get 'examples/index'
+  get 'examples/sentiment'
+  get 'examples/geo'
 
+  get 'api', :to => 'home#api'
+  get 'petitions', :to => 'petitions#index'
   root :to => 'home#index'
 
-  resources :petitions, only: [:show]
+  resources :petitions, only: [:show, :index]
 end

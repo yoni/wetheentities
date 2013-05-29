@@ -1,44 +1,32 @@
 <h1>We the Entities</h1>
+<p class="lead">
+    We the Entities adds rich entities, sentiment analysis, and other text-based analysis
+    on petitions taken from the White House's
+    <a href="https://petitions.whitehouse.gov">We the People</a> application.
 <p>
-    We the Entities is a RESTful API for analyzing the petition text from the White House's
-    <a href="https://petitions.whitehouse.gov/developers">We the People</a> application.
+<p>
+    It provides a summary of the "entities" (e.g. people, places, organizations), themes, and
+    phrases from petitions. It also discerns the sentiment of the author
+    towards these entities (i.e. negative, neutral or positive).
 </p>
+<div class="row">
+    <%= link_to(:controller => :petitions, :action => :index) do %>
+        <div class="span4">
+            <h4>Petition Browser</h4>
+            <%= image_tag("titles.png", :alt => "rss feed") %>
+        </div>
+    <% end %>
+    <%= link_to(:controller => :home, :action => :api) do %>
+        <div class="span4">
+            <h4>Developer API</h4>
+            <%= image_tag("themes_json.png", :alt => "rss feed") %>
+        </div>
+        <div class="span4"></div>
+    <% end %>
+</div>
+<hr />
 <p>
-    It leverages text analysis services like <a href="http://www.opencalais.com/">Open Calais</a>,
+    We the Entities leverages text analysis services like <a href="http://www.opencalais.com/">Open Calais</a>,
     <a href="http://www.alchemyapi.com/">AlchemyAPI</a>, and <a href="https://semantria.com/">Semantria</a> to extract
-    information from the petition title and body. Information extracted from the text includes locations, people,
-    sentiment analysis, and more.
+    information from the petition title and body.
 </p>
-<p>
-</p>
-<h4>Example Analysis</h4>
-<ul>
-    <li>
-        <%= link_to @location_petition_example.title, :controller=> :petitions, :action => :show, :id => @location_petition_example.id %>
-    </li>
-<% @petitions.each do |petition| %>
-    <li>
-        <%= link_to petition.title, :controller=> :petitions, :action => :show, :id => petition.id %>
-    </li>
-<% end %>
-</ul>
-<h4>Application Programming Interface (API)</h4>
-<pre>
-    <%= petition_path(:id=> ':id') %><b>[.json]</b>
-</pre>
-<p>For example, to retrieve the text analysis for petition with id '<%= @petition_id %>':</p>
-<pre>
-    <%= link_to @example_path, @example_path %>
-    <%= link_to @example_json_path, @example_json_path %>
-</pre>
-<h5>JavaScript API client examples</h5>
-<ul>
-    <li>
-        <%= link_to "Sentiment", :controller => :examples, :action => :sentiment %>
-    </li>
-    <li>
-        <%= link_to "Geo", :controller => :examples, :action => :geo%>
-    </li>
-</ul>
-
-<a href="https://github.com/yoni/wetheentities"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
