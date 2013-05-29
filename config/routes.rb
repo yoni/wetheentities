@@ -4,6 +4,7 @@ Wetheentities::Application.routes.draw do
   get 'examples/geo'
 
   get 'api', :to => 'home#api'
+  get 'about', :to => 'home#about'
   get 'petitions', :to => 'petitions#index'
   root :to => 'home#index'
 

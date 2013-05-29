@@ -8,10 +8,13 @@
 </head>
 <body>
 <h2>We the Entities</h2>
-<%= link_to 'Home', :root %> | <%= link_to 'Developer API', :controller => :home, :action => :api %>
+<%= link_to 'Home', :root %> |
+<%= link_to 'Developer API', :controller => :home, :action => :api %> |
+<%= link_to 'About', :controller => :home, :action => :about %>
 <hr />
 
 <%= yield %>
 
+<a href="https://github.com/yoni/wetheentities"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
 </body>
 </html>
