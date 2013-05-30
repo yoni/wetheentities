@@ -37,6 +37,8 @@ We the Entities is a [Ruby on Rails](http://rubyonrails.org/) application.
 
 To report problems, ask questions, track enhancements, etc. please use Github [issues](https://github.com/yoni/wetheentities/issues).
 
+#### Notes on local development
+
 ##### Configuring API Keys
 
 We the Entities relies on several external APIs in order to work, including:
@@ -51,6 +53,41 @@ In order to run the application on a local environment, you must set API keys fo
     SEMANTRIA_CONSUMER_KEY=ABD123
     SEMANTRIA_CONSUMER_SECRET=DEF456
 
+##### Configuring Redis
+
+We the Entities uses a Redis store for job queueing and caching. To configure the Redis server, set:
+
+    REDISTOGO_URL
+
+If not set, a default Redis URL will be used:
+
+    redis://127.0.0.1:6379/0/wetheentities
+
+This default should work on a standard Redis install, for example on OS X:
+
+    brew install redis
+    redis-server /usr/local/etc/redis.conf
+
+##### Starting sidekiq
+
+We the Entities uses the `sidekiq` Ruby gem for background workers to run semantic analysis. In order
+to start background workers for a local install, run:
+
+    sidekiq -q high,5 default
+
+##### Process for running locally
+
+1. Start Redis
+
+    redis-server /usr/local/etc/redis.conf
+
+2. Start sidekiq
+
+    foreman run bundle exec sidekiq -q high,5 default
+
+3. Start Rails server
+
+    foreman run rails server
 
 #### License
 

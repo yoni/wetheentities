@@ -1,178 +1,187 @@
-<h3>We the Entities Petition Analysis</h3>
-The following is the original petition, the Open Calais analysis, and the Semantria analysis for the petition.
+<% unless @petition['analysis_complete'] %>
+    <button class='btn btn-info' onclick="location.reload(true);">
+        <i class='icon-refresh icon-white'></i>
+        Analysis is underway. Refresh to see results. Automatic refresh in 5 seconds.
+    </button>
+    <meta http-equiv="refresh" content="5" >
+<% end %>
 <h3>Petition</h3>
 <h5>ID</h5>
 <%= @petition[:id] %></p>
 <h5>Title</h5>
-<p><%= @petition[:petition].title %></p>
+<p><%= @petition['attributes']['title'] %></p>
 <h5>Body</h5>
-<p><%= @petition[:petition].body %></p>
+<p><%= @petition['attributes']['body'] %></p>
 <h5>Issues</h5>
-<p><%= @petition[:petition].issues.map{|issue| issue.name}.join(', ') %></p>
-<h3>Open Calais Analysis</h3>
-<h5>Topics</h5>
-<table class='table'>
-    <thead>
-    <tr>
-        <th>Topic</th>
-        <th>Score</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @petition[:open_calais].select{ |k, v| v['_typeGroup'] == 'topics'}.each do |key, topic| %>
-    <tr>
-        <td><%= topic['categoryName'] %></td>
-        <td><%= topic['score'] %></td>
-    </tr>
-    <% end %>
-    </tbody>
-</table>
-<h5>Entities</h5>
-<table class='table table-bordered'>
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Relevance</th>
-        <th>Latitude</th>
-        <th>Longitude</th>
-        <th>Map</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @petition[:open_calais].select{ |k, v| v['_typeGroup'] == 'entities'}.each do |key, entity| %>
-    <tr>
-        <td><%= entity['name'] %></td>
-        <td><%= entity['_type'] %></td>
-        <td><%= entity['relevance'] %></td>
-        <% if entity['resolutions'] %>
-            <td><%= entity['resolutions'][0]['latitude'] %></td>
-            <td><%= entity['resolutions'][0]['longitude'] %></td>
-            <td>
-                <iframe width='200' height='200' frameBorder='0'
-                        src="http://a.tiles.mapbox.com/v3/bmesh.map-ryb6e7uw.html#3/<%= entity['resolutions'][0]['latitude'] %>/<%= entity['resolutions'][0]['longitude'] %>">
-                </iframe>
-            </td>
-        <% else %>
-            <td></td>
-            <td></td>
-            <td></td>
-        <% end %>
-    </tr>
-    <% end %>
-    </tbody>
-</table>
-<h3>Semantria Analysis</h3>
-<% if(@petition[:semantria]['summary']) %>
-    <h5>Summary</h5>
-    <p><%= @petition[:semantria]['summary'] %></p>
-<% end %>
-<% if(@petition[:semantria]['phrases']) %>
-    <h5>Phrases</h5>
+<p><%= @petition['attributes']['issues'].map{|issue| issue['name']}.join(', ') %></p>
+<% if @petition['open_calais'] %>
+    <h3>Open Calais Analysis</h3>
+    <h5>Topics</h5>
     <table class='table'>
         <thead>
         <tr>
-            <th>Title</th>
-            <th>Type</th>
-            <th>Sentiment Score</th>
-            <th>Sentiment Polarity</th>
-            <th>Strength Score</th>
-            <th>Is Negated</th>
-            <th>Negating Phrase</th>
+            <th>Topic</th>
+            <th>Score</th>
         </tr>
         </thead>
         <tbody>
-        <% @petition[:semantria]['phrases'].each do |phrase| %>
-            <tr class="<%= class_from_sentiment phrase %>">
-                <td><%= phrase['title'] %></td>
-                <td><%= phrase['type'] %></td>
-                <td><%= phrase['sentiment_score'] %></td>
-                <td><%= phrase['sentiment_polarity'] %></td>
-                <td><%= phrase['strength_score'] %></td>
-                <td><%= phrase['is_negated'] %></td>
-                <td><%= phrase['negating_phrase'] %></td>
+        <% @petition['open_calais'].select{ |k, v| v['_typeGroup'] == 'topics'}.each do |key, topic| %>
+            <tr>
+                <td><%= topic['categoryName'] %></td>
+                <td><%= topic['score'] %></td>
             </tr>
         <% end %>
         </tbody>
     </table>
-<% end %>
-<% if(@petition[:semantria]['themes']) %>
-    <h5>Themes</h5>
-    <table class='table'>
-        <thead>
-        <tr>
-            <th>Theme</th>
-            <th>Sentiment Score</th>
-            <th>Sentiment Polarity</th>
-            <th>Strength Score</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @petition[:semantria]['themes'].each do |theme| %>
-            <tr class="<%= class_from_sentiment theme %>">
-                <td><%= theme['title'] %></td>
-                <td><%= theme['sentiment_score'] %></td>
-                <td><%= theme['sentiment_polarity'] %></td>
-                <td><%= theme['strength_score'] %></td>
-            </tr>
-        <% end %>
-        </tbody>
-    </table>
-<% end %>
-<% if(@petition[:semantria]['entities']) %>
     <h5>Entities</h5>
-    <% @petition[:semantria]['entities'].each do |entity| %>
-        <div class="row">
-            <div class="span2">
-                <%= entity['title'] %>
-            </div>
-            <div class="span10">
-                <table class='table'>
-                    <thead>
-                    <tr>
-                        <th>Entity Type</th>
-                        <th>Title</th>
-                        <th>Confident</th>
-                        <th>Evidence</th>
-                        <th>Sentiment Polarity</th>
-                        <th>Sentiment Score</th>
-                        <th>Is About</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="<%= class_from_sentiment entity %>">
-                        <td><%= entity['entity_type'] %></td>
-                        <td><%= entity['title'] %></td>
-                        <td><%= entity['confident'] %></td>
-                        <td><%= entity['evidence'] %></td>
-                        <td><%= entity['sentiment_polarity'] %></td>
-                        <td><%= entity['sentiment_score'] %></td>
-                        <td><%= entity['is_about'] %></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <table class='table'>
-                    <thead>
-                    <tr>
-                        <th>Theme</th>
-                        <th>Sentiment Score</th>
-                        <th>Sentiment Polarity</th>
-                        <th>Strength Score</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <% entity['themes'].each do |theme| %>
-                        <tr class="<%= class_from_sentiment theme %>">
-                            <td><%= theme['title'] %></td>
-                            <td><%= theme['sentiment_score'] %></td>
-                            <td><%= theme['sentiment_polarity'] %></td>
-                            <td><%= theme['strength_score'] %></td>
+    <table class='table table-bordered'>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Relevance</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Map</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @petition['open_calais'].select{ |k, v| v['_typeGroup'] == 'entities'}.each do |key, entity| %>
+            <tr>
+                <td><%= entity['name'] %></td>
+                <td><%= entity['_type'] %></td>
+                <td><%= entity['relevance'] %></td>
+                <% if entity['resolutions'] %>
+                    <td><%= entity['resolutions'][0]['latitude'] %></td>
+                    <td><%= entity['resolutions'][0]['longitude'] %></td>
+                    <td>
+                        <iframe width='200' height='200' frameBorder='0'
+                                src="http://a.tiles.mapbox.com/v3/bmesh.map-ryb6e7uw.html#3/<%= entity['resolutions'][0]['latitude'] %>/<%= entity['resolutions'][0]['longitude'] %>">
+                        </iframe>
+                    </td>
+                <% else %>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                <% end %>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+<% end %>
+<% if @petition['semantria'] %>
+    <h3>Semantria Analysis</h3>
+    <% if(@petition['semantria']['summary']) %>
+        <h5>Summary</h5>
+        <p><%= @petition['semantria']['summary'] %></p>
+    <% end %>
+    <% if(@petition['semantria']['phrases']) %>
+        <h5>Phrases</h5>
+        <table class='table'>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Sentiment Score</th>
+                <th>Sentiment Polarity</th>
+                <th>Strength Score</th>
+                <th>Is Negated</th>
+                <th>Negating Phrase</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @petition['semantria']['phrases'].each do |phrase| %>
+                <tr class="<%= class_from_sentiment phrase %>">
+                    <td><%= phrase['title'] %></td>
+                    <td><%= phrase['type'] %></td>
+                    <td><%= phrase['sentiment_score'] %></td>
+                    <td><%= phrase['sentiment_polarity'] %></td>
+                    <td><%= phrase['strength_score'] %></td>
+                    <td><%= phrase['is_negated'] %></td>
+                    <td><%= phrase['negating_phrase'] %></td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    <% end %>
+    <% if(@petition['semantria']['themes']) %>
+        <h5>Themes</h5>
+        <table class='table'>
+            <thead>
+            <tr>
+                <th>Theme</th>
+                <th>Sentiment Score</th>
+                <th>Sentiment Polarity</th>
+                <th>Strength Score</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @petition['semantria']['themes'].each do |theme| %>
+                <tr class="<%= class_from_sentiment theme %>">
+                    <td><%= theme['title'] %></td>
+                    <td><%= theme['sentiment_score'] %></td>
+                    <td><%= theme['sentiment_polarity'] %></td>
+                    <td><%= theme['strength_score'] %></td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    <% end %>
+    <% if(@petition['semantria']['entities']) %>
+        <h5>Entities</h5>
+        <% @petition['semantria']['entities'].each do |entity| %>
+            <div class="row">
+                <div class="span2">
+                    <%= entity['title'] %>
+                </div>
+                <div class="span10">
+                    <table class='table'>
+                        <thead>
+                        <tr>
+                            <th>Entity Type</th>
+                            <th>Title</th>
+                            <th>Confident</th>
+                            <th>Evidence</th>
+                            <th>Sentiment Polarity</th>
+                            <th>Sentiment Score</th>
+                            <th>Is About</th>
                         </tr>
-                    <% end %>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        <tr class="<%= class_from_sentiment entity %>">
+                            <td><%= entity['entity_type'] %></td>
+                            <td><%= entity['title'] %></td>
+                            <td><%= entity['confident'] %></td>
+                            <td><%= entity['evidence'] %></td>
+                            <td><%= entity['sentiment_polarity'] %></td>
+                            <td><%= entity['sentiment_score'] %></td>
+                            <td><%= entity['is_about'] %></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class='table'>
+                        <thead>
+                        <tr>
+                            <th>Theme</th>
+                            <th>Sentiment Score</th>
+                            <th>Sentiment Polarity</th>
+                            <th>Strength Score</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% entity['themes'].each do |theme| %>
+                            <tr class="<%= class_from_sentiment theme %>">
+                                <td><%= theme['title'] %></td>
+                                <td><%= theme['sentiment_score'] %></td>
+                                <td><%= theme['sentiment_polarity'] %></td>
+                                <td><%= theme['strength_score'] %></td>
+                            </tr>
+                        <% end %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        <% end %>
     <% end %>
 <% end %>
 <h3>Raw JSON</h3>

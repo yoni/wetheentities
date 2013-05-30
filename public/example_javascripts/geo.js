@@ -1,12 +1,12 @@
-$.getJSON('/petitions/51942b9b2f2c888e2f00000c.json', function(data) {
+function draw (data) {
 
     d3.select('#petition')
         .append('h5')
-        .text(data.petition.attributes.title);
+        .text(data.attributes.title);
 
     d3.select('#petition')
         .append('p')
-        .text(data.petition.attributes.body);
+        .text(data.attributes.body);
 
     // Extract Countries from the Open Calais result:
     var locations = [];
@@ -51,6 +51,18 @@ $.getJSON('/petitions/51942b9b2f2c888e2f00000c.json', function(data) {
 
         });
 
+}
 
-});
+function loadPetitionData() {
+    $.getJSON('/petitions/51942b9b2f2c888e2f00000c.json', function(data) {
+        if(data.analysis_complete) {
+            $('#loading').remove();
+            draw(data);
+        }
+        else {
+            setTimeout(loadPetitionData, 2000);
+        }
+    });
+}
 
+loadPetitionData();

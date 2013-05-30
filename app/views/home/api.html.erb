@@ -7,6 +7,13 @@
     <%= link_to @example_path, @example_path %>
     <%= link_to @example_json_path, @example_json_path %>
 </pre>
+<p>
+    Please note that analysis of petition text is performed asynchronously via calls to external APIs.
+    A result will always be returned for each API call, however sometimes the analysis will not have been completed.
+    In order to check for analysis results, use the <code>analysis_complete</code> key in the result. If
+    <code>analysis_complete</code> is not set, re-run the API call after a few seconds.
+    Once analysis has been run for a petition, the results will persist across subsequent calls.
+</p>
 <h5>JavaScript API client examples</h5>
 <ul>
     <li>
