@@ -1,6 +1,0 @@
-test: &test
-  host: <%= ENV['TDDIUM_REDIS_HOST'] %>
-  port: <%= ENV['TDDIUM_REDIS_PORT'] %>
-  db: <%= ENV['TDDIUM_REDIS_DATABASE'] %>
-  password: <%= ENV['TDDIUM_REDIS_PASSWORD'] %>
-  timeout: 10
