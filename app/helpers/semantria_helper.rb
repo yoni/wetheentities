@@ -27,13 +27,7 @@ module SemantriaHelper
     end
   end
 
-  def enhance(document)
-    results = enhance_multiple([document])
-    results.empty? ? nil : results[0]
-  end
-  module_function :enhance
-
-  def enhance_multiple(documents)
+  def session
     # Initializes new session with the keys and app name.
     # We also will use compression.
     # Opening a new session for each request so that we don't have any concurrency issues. We might relax this
@@ -42,45 +36,63 @@ module SemantriaHelper
     # Initialize session callback handlers
     callback = SessionCallbackHandler.new()
     session.setCallbackHandler(callback)
-
-    documents.each do |doc|
-      # Queues document for processing on Semantria service
-      status = session.queueDocument(doc)
-      # Check status from Semantria service
-      if status == 202
-        Rails.logger.info "Document #{doc['id']} queued successfully."
-      else
-        raise "Error queueing document #{doc['id']}. Semantria API returned status: #{status}"
-      end
-    end
-
-    # Count of the sample documents which need to be processed on Semantria
-    length = documents.length
-    results = []
-
-    total_poll_time = 0
-    while results.length < length
-      # As Semantria isn't real-time solution you need to wait some time before getting of the processed results
-      # In real application here can be implemented two separate jobs, one for queuing of source data another one for retrieving
-      # Wait while Semantria process queued document
-      Rails.logger.info "Waiting #{POLL_SECONDS} sec between Semantria polling..."
-      sleep(POLL_SECONDS)
-      # Requests processed results from Semantria service
-      status = session.getProcessedDocuments()
-      # Check status from Semantria service
-      status.is_a? Array and status.each do |object|
-        results.push(object)
-      end
-      Rails.logger.info "#{status.length} documents received successfully."
-      total_poll_time += POLL_SECONDS
-      if total_poll_time > TIMEOUT_SECONDS
-        Rails.logger.info "Reached timeout after polling for #{total_poll_time} seconds. Returning results."
-        return results
-      end
-    end
-
-    results
+    session
   end
-  module_function :enhance_multiple
+  module_function :session
+
+  %w(document collection).each do |name|
+    class_eval <<EOF
+      # Runs analysis on a single #{name}
+      def enhance_#{name}(#{name})
+        results = enhance_#{name.pluralize}([#{name}])
+        results.empty? ? nil : results[0]
+      end
+      module_function :enhance_#{name}
+
+      # Runs analysis on all #{name.pluralize} collectively
+      def enhance_#{name.pluralize}(#{name.pluralize})
+        Rails.logger.info "Loading Semantria analysis for #{name.pluralize}"
+        session = session()
+
+        # Check status from Semantria service
+        #{name.pluralize}.each do |#{name}|
+          # Queues #{name} for processing on Semantria service
+          status = session.queue#{name.capitalize}(#{name})
+          # Check status from Semantria service
+          if status == 202
+            Rails.logger.info "#{name.capitalize} \#{#{name}['id']} queued successfully."
+          else
+            raise "Error queueing #{name} \#{#{name}['id']}. Semantria API returned status: \#{status}"
+          end
+        end
+
+        length = #{name.pluralize}.length
+        results = []
+        total_poll_time = 0
+        while results.length < length
+          # As Semantria isn't real-time solution you need to wait some time before getting of the processed results
+          # In real application here can be implemented two separate jobs, one for queuing of source data another one for retrieving
+          # Wait while Semantria process queued #{name}
+          Rails.logger.info "Waiting #{POLL_SECONDS} sec between Semantria polling..."
+          sleep(POLL_SECONDS)
+          # Requests processed results from Semantria service
+          status = session.getProcessed#{name.capitalize.pluralize}()
+          # Check status from Semantria service
+          status.is_a? Array and status.each do |object|
+            results.push(object)
+          end
+          Rails.logger.info "\#{status.length} #{name.pluralize} received successfully."
+          total_poll_time += POLL_SECONDS
+          if total_poll_time > TIMEOUT_SECONDS
+            Rails.logger.info "Reached timeout after polling for \#{total_poll_time} seconds. Returning results."
+            return results
+          end
+        end
+
+        results
+      end
+      module_function :enhance_#{name.pluralize}
+EOF
+  end
 end
 
