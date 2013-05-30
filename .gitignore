@@ -24,3 +24,5 @@
 
 # Foreman environment variables
 .env
+
+.DS_Store
