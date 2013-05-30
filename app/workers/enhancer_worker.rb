@@ -1,7 +1,5 @@
 class EnhancerWorker
   include Sidekiq::Worker
-  sidekiq_options queue: "high"
-  # sidekiq_options retry: false
 
   def perform(id)
     petition = JSON.parse(REDIS.get(id))
