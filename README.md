@@ -13,11 +13,28 @@ We the Entities includes a petition browser and a Developer API.
 Under the covers, We the Entities leverages text analysis services like Open Calais, AlchemyAPI, and Semantria
 to extract information from the petition title and body.
 
-#### See the live instance of the app for examples
+### Table of Contents
 
-http://wetheentities.herokuapp.com/
+* [Live Application](#live-application)
+* [About](#about)
+* [Issues](#issues)
+* [Contributing](#contributing)
+  * [Configuring API Keys](#configuring-api-keys)
+  * [Configuring Redis](#configuring-redis)
+  * [Sidekiq](#sidekiq)
+  * [Steps for running locally](#steps-for-running-locally)
+* [License](#license)
 
-#### About
+### Live Application
+
+The We the Entities application is live at: http://wetheentities.herokuapp.com/
+
+### Issues
+
+To report problems, ask questions, track enhancements, etc. please use Github [issues](https://github.com/yoni/wetheentities/issues).
+
+
+### About
 We the Entities is being developed as part of the [National Day of Civic Hacking event at the
 White House](http://www.whitehouse.gov/developers/apply-national-day-civic-hacking-white-house). It leverages the
 [We the People API](https://petitions.whitehouse.gov/developers) to access petition data.
@@ -27,17 +44,12 @@ Contributors:
 * [Yoni Ben-Meshulam](https://github.com/yoni)
 * [Alec Turnbull](https://github.com/alecturnbull)
 
-#### Contributing
+
+### Contributing
 
 To contribute, fork the application on Github and send [Yoni Ben-Meshulam](https://github.com/yoni) a pull request.
 
 We the Entities is a [Ruby on Rails](http://rubyonrails.org/) application.
-
-#### Issues
-
-To report problems, ask questions, track enhancements, etc. please use Github [issues](https://github.com/yoni/wetheentities/issues).
-
-#### Notes on local development
 
 ##### Configuring API Keys
 
@@ -72,8 +84,6 @@ This default should work on a standard Redis install, for example on OS X:
 
 We the Entities uses the `sidekiq` Ruby gem for background workers to run semantic analysis.
 
-##### See also
-http://railscasts.com/episodes/366-sidekiq
 
 ##### Steps for running locally
 
