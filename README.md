@@ -75,6 +75,9 @@ to start background workers for a local install, run:
 
     sidekiq -q high,5 default
 
+##### See also
+http://railscasts.com/episodes/366-sidekiq
+
 ##### Process for running locally
 
 1. Start Redis
