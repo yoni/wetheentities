@@ -159,26 +159,28 @@
                         </tr>
                         </tbody>
                     </table>
-                    <table class='table'>
-                        <thead>
-                        <tr>
-                            <th>Theme</th>
-                            <th>Sentiment Score</th>
-                            <th>Sentiment Polarity</th>
-                            <th>Strength Score</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <% entity['themes'].each do |theme| %>
-                            <tr class="<%= class_from_sentiment theme %>">
-                                <td><%= theme['title'] %></td>
-                                <td><%= theme['sentiment_score'] %></td>
-                                <td><%= theme['sentiment_polarity'] %></td>
-                                <td><%= theme['strength_score'] %></td>
+                    <% if entity['themes'] %>
+                        <table class='table'>
+                            <thead>
+                            <tr>
+                                <th>Theme</th>
+                                <th>Sentiment Score</th>
+                                <th>Sentiment Polarity</th>
+                                <th>Strength Score</th>
                             </tr>
-                        <% end %>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            <% entity['themes'].each do |theme| %>
+                                <tr class="<%= class_from_sentiment theme %>">
+                                    <td><%= theme['title'] %></td>
+                                    <td><%= theme['sentiment_score'] %></td>
+                                    <td><%= theme['sentiment_polarity'] %></td>
+                                    <td><%= theme['strength_score'] %></td>
+                                </tr>
+                            <% end %>
+                            </tbody>
+                        </table>
+                    <% end %>
                 </div>
             </div>
         <% end %>
