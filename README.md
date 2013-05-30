@@ -68,27 +68,24 @@ This default should work on a standard Redis install, for example on OS X:
     brew install redis
     redis-server /usr/local/etc/redis.conf
 
-##### Starting sidekiq
+##### Sidekiq
 
-We the Entities uses the `sidekiq` Ruby gem for background workers to run semantic analysis. In order
-to start background workers for a local install, run:
-
-    sidekiq -q high,5 default
+We the Entities uses the `sidekiq` Ruby gem for background workers to run semantic analysis.
 
 ##### See also
 http://railscasts.com/episodes/366-sidekiq
 
-##### Process for running locally
+##### Steps for running locally
 
-1. Start Redis
+Start Redis
 
     redis-server /usr/local/etc/redis.conf
 
-2. Start sidekiq
+Start sidekiq
 
     foreman run bundle exec sidekiq -q high,5 default
 
-3. Start Rails server
+Start Rails server
 
     foreman run rails server
 
