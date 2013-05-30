@@ -13,6 +13,5 @@ class Petition
     end
     JSON.parse(REDIS.get(id))
   end
-  end
 
 end
