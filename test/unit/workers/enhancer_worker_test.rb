@@ -22,6 +22,7 @@ class EnhancerWorkerTest < ActionView::TestCase
 
   # see https://github.com/mperham/sidekiq/wiki/Testing
   test 'should be able to queue a job for enhancing a petition' do
+    EnhancerWorker.jobs.clear
     assert_equal 0, EnhancerWorker.jobs.size
     EnhancerWorker.perform_async(@petition['attributes']['id'])
     assert_equal 1, EnhancerWorker.jobs.size
