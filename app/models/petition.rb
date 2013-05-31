@@ -8,7 +8,6 @@ class Petition
 
   def self.find(id)
     unless REDIS.exists(id)
-      Rails.logger.info 'Redis miss. Loading petition from the We the People API.'
       petition = WeThePeople::Resources::Petition.find(id)
       REDIS.set(id, petition.to_json)
       EnhancerWorker.perform_async(id)
@@ -16,14 +15,37 @@ class Petition
     JSON.parse(REDIS.get(id))
   end
 
-  def self.all
-    @key = 'all_petitions'
+  def self.all(issues=[], statuses=[])
+    Rails.logger.info "Loading petitions with issues: #{issues}"
+    prefix = 'all_petitions'
+
+    criteria = {:issues => issues.sort, :statuses => statuses.sort}
+    @key = "#{prefix}:#{criteria.hash}"
+
     unless REDIS.exists(@key)
-      Rails.logger.info 'Redis miss. Loading petition from the We the People API.'
-      petitions = WeThePeople::Resources::Petition.all.sort{|a,b| b.created <=> a.created}.first(100).map{|petition| JSON.parse(petition.to_json)}
+      petitions = WeThePeople::Resources::Petition.all
+
+      if issues.any?
+        petitions = petitions.select{ |petition|
+          petition.issues.any? {|issue|
+            issues.include?(issue.name)
+          }
+        }
+      end
+
+      if statuses.any?
+        petitions = petitions.select{ |petition|
+          statuses.include?(petition.status)
+        }
+      end
+
+      petitions = petitions.sort{|a,b| b.created <=> a.created}.first(100)
+      petitions = petitions.map{|petition| JSON.parse(petition.to_json)}
       collection = {:key => @key, :petitions => petitions}
       REDIS.set(@key, collection.to_json)
-      CollectionEnhancerWorker.perform_async(@key)
+      unless petitions.empty?
+        CollectionEnhancerWorker.perform_async(@key)
+      end
     end
     JSON.parse(REDIS.get(@key))
   end

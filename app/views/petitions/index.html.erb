@@ -1,141 +1,158 @@
-<% if @collection['analysis_complete'] %>
-    <h3>Top Entities</h3>
-    <table class='table'>
-        <thead>
-        <tr>
-            <th>Title</th>
-            <th>Type</th>
-            <th>Count</th>
-            <th>Negative Count</th>
-            <th>Neutral Count</th>
-            <th>Positive Count</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @collection['semantria']['entities'].each do |entity| %>
-            <tr>
-                <td>
-                    <%= entity['title'] %>
-                </td>
-                <td>
-                    <%= entity['type'] %>
-                </td>
-                <td>
-                    <%= entity['count'] %>
-                </td>
-                <td>
-                    <%= entity['negative_count'] %>
-                </td>
-                <td>
-                    <%= entity['neutral_count'] %>
-                </td>
-                <td>
-                    <%= entity['positive_count'] %>
-                </td>
-            </tr>
-        <% end %>
-        </tbody>
-    </table>
-    <h3>Top Themes</h3>
-    <table class='table'>
-        <thead>
-        <tr>
-            <th>Title</th>
-            <th>Sentiment Polarity</th>
-            <th>Sentiment Score</th>
-            <th>Themes Count</th>
-            <th>Phrases Count</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @collection['semantria']['themes'].each do |theme| %>
-            <tr>
-                <td>
-                    <%= theme['title'] %>
-                </td>
-                <td>
-                    <%= theme['sentiment_polarity'] %>
-                </td>
-                <td>
-                    <%= theme['sentiment_score'] %>
-                </td>
-                <td>
-                    <%= theme['phrases_count'] %>
-                </td>
-                <td>
-                    <%= theme['themes_count'] %>
-                </td>
-            </tr>
-        <% end %>
-        </tbody>
-    </table>
-    <h3>Top Facets</h3>
-    <table class='table'>
-        <thead>
-        <tr>
-            <th>Label</th>
-            <th>Count</th>
-            <th>Negative Count</th>
-            <th>Positive Count</th>
-            <th>Neutral Count</th>
-            <th>Attributes</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @collection['semantria']['facets'].each do |facet| %>
-            <tr>
-                <td>
-                    <%= facet['label'] %>
-                </td>
-                <td>
-                    <%= facet['count'] %>
-                </td>
-                <td>
-                    <%= facet['negative_count'] %>
-                </td>
-                <td>
-                    <%= facet['positive_count'] %>
-                </td>
-                <td>
-                    <%= facet['neutral_count'] %>
-                </td>
-                <td>
-                    <% if facet['attributes'] %>
-                        <%= facet['attributes'].map {|attribute| "#{attribute['label']} (#{attribute['count']})" }.join(', ') %>
-                    <% end %>
-                </td>
-            </tr>
-        <% end %>
-        </tbody>
-    </table>
+<p>Issues selected: <%= @issues.join ', ' %></p>
+<p>Statuses selected: <%= @statuses.join ', ' %></p>
+<% if @collection['petitions'].empty? %>
+    <p>No petitions matching criteria.</p>
 <% else %>
-    <button class='btn btn-info' onclick="location.reload(true);">
-        <i class='icon-refresh icon-white'></i>
-        Analysis is underway. Refresh to see results. Automatic refresh in 3 seconds.
-    </button>
-    <meta http-equiv="refresh" content="3" >
-<% end %>
-<h3>Petitions</h3>
-<p>
-<table class='table'>
-    <thead>
-    <tr>
-        <th>Created</th>
-        <th>Title</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @collection['petitions'].each do |petition| %>
-        <tr>
-            <td>
-                <%= Time.at(petition['attributes']['created']).to_date %>
-            </td>
-            <td>
-                <%= link_to petition['attributes']['title'], :controller => :petitions, :action => :show, :id => petition['attributes']['id'] %>
-            </td>
-        </tr>
+    <p><%= @collection['petitions'].size %> petitions matching criteria</p>
+    <% if @collection['analysis_complete'] %>
+        <% if @collection['semantria']['entities'] %>
+            <h3>Top Entities</h3>
+            <table class='table'>
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Count</th>
+                    <th>Negative Count</th>
+                    <th>Neutral Count</th>
+                    <th>Positive Count</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% @collection['semantria']['entities'].each do |entity| %>
+                    <tr>
+                        <td>
+                            <%= entity['title'] %>
+                        </td>
+                        <td>
+                            <%= entity['type'] %>
+                        </td>
+                        <td>
+                            <%= entity['count'] %>
+                        </td>
+                        <td>
+                            <%= entity['negative_count'] %>
+                        </td>
+                        <td>
+                            <%= entity['neutral_count'] %>
+                        </td>
+                        <td>
+                            <%= entity['positive_count'] %>
+                        </td>
+                    </tr>
+                <% end %>
+                </tbody>
+            </table>
+        <% end %>
+        <% if @collection['semantria']['entities'] %>
+            <h3>Top Themes</h3>
+            <table class='table'>
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Sentiment Polarity</th>
+                    <th>Sentiment Score</th>
+                    <th>Themes Count</th>
+                    <th>Phrases Count</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% @collection['semantria']['themes'].each do |theme| %>
+                    <tr>
+                        <td>
+                            <%= theme['title'] %>
+                        </td>
+                        <td>
+                            <%= theme['sentiment_polarity'] %>
+                        </td>
+                        <td>
+                            <%= theme['sentiment_score'] %>
+                        </td>
+                        <td>
+                            <%= theme['phrases_count'] %>
+                        </td>
+                        <td>
+                            <%= theme['themes_count'] %>
+                        </td>
+                    </tr>
+                <% end %>
+                </tbody>
+            </table>
+        <% end %>
+        <% if @collection['semantria']['facets'] %>
+            <h3>Top Facets</h3>
+            <table class='table'>
+                <thead>
+                <tr>
+                    <th>Label</th>
+                    <th>Count</th>
+                    <th>Negative Count</th>
+                    <th>Positive Count</th>
+                    <th>Neutral Count</th>
+                    <th>Attributes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% @collection['semantria']['facets'].each do |facet| %>
+                    <tr>
+                        <td>
+                            <%= facet['label'] %>
+                        </td>
+                        <td>
+                            <%= facet['count'] %>
+                        </td>
+                        <td>
+                            <%= facet['negative_count'] %>
+                        </td>
+                        <td>
+                            <%= facet['positive_count'] %>
+                        </td>
+                        <td>
+                            <%= facet['neutral_count'] %>
+                        </td>
+                        <td>
+                            <% if facet['attributes'] %>
+                                <%= facet['attributes'].map {|attribute| "#{attribute['label']} (#{attribute['count']})" }.join(', ') %>
+                            <% end %>
+                        </td>
+                    </tr>
+                <% end %>
+                </tbody>
+            </table>
+        <% end %>
+    <% else %>
+        <button class='btn btn-info' onclick="location.reload(true);">
+            <i class='icon-refresh icon-white'></i>
+            Analysis is underway. Refresh to see results. Automatic refresh in 3 seconds.
+        </button>
+        <meta http-equiv="refresh" content="3" >
     <% end %>
+    <h3>Petitions</h3>
+    <p>
+    <table class='table'>
+        <thead>
+        <tr>
+            <th>Created</th>
+            <th>Status</th>
+            <th>Title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @collection['petitions'].each do |petition| %>
+            <tr>
+                <td>
+                    <%= Time.at(petition['attributes']['created']).to_date %>
+                </td>
+                <td>
+                    <%= petition['attributes']['status'] %>
+                </td>
+                <td>
+                    <%= link_to petition['attributes']['title'], :controller => :petitions, :action => :show, :id => petition['attributes']['id'] %>
+                </td>
+            </tr>
+        <% end %>
 
-    </tbody>
-</table>
-</p>
+        </tbody>
+    </table>
+    </p>
+<% end %>
