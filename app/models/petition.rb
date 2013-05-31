@@ -22,7 +22,8 @@ class Petition
     criteria = {
         :issues => issues.sort,
         :statuses => statuses.sort,
-        :signatures => signatures
+        :signatures => signatures,
+        :date => Date.today
     }
 
     @key = "#{prefix}:#{criteria.hash}"

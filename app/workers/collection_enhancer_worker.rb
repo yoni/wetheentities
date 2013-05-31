@@ -8,7 +8,7 @@ class CollectionEnhancerWorker
       "#{petition['attributes']['title']}  #{petition['attributes']['body']}"
     }
 
-    semantria_result = SemantriaHelper.enhance_collection({:id => "#{key}_#{Time.now.to_i}", :documents => documents})
+    semantria_result = SemantriaHelper.enhance_collection({:id => "#{key}", :documents => documents})
 
     collection['semantria'] = semantria_result
     collection['analysis_complete'] = true
