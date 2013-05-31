@@ -17,7 +17,7 @@ class PetitionsController < ApplicationController
   end
 
   def index
-    @petitions = WeThePeople::Resources::Petition.all
+    @petitions = Petition.all
     respond_to do |format|
       format.html
       format.json {
