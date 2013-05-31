@@ -1,5 +1,7 @@
+<h3>Criteria</h3>
 <p>Issues selected: <%= @issues.join ', ' %></p>
 <p>Statuses selected: <%= @statuses.join ', ' %></p>
+<p>Signature threshold: <%= @signatures %></p>
 <% if @collection['petitions'].empty? %>
     <p>No petitions matching criteria.</p>
 <% else %>
@@ -134,6 +136,7 @@
         <tr>
             <th>Created</th>
             <th>Status</th>
+            <th>Signatures</th>
             <th>Title</th>
         </tr>
         </thead>
@@ -145,6 +148,9 @@
                 </td>
                 <td>
                     <%= petition['attributes']['status'] %>
+                </td>
+                <td>
+                    <%= petition['attributes']['signatureCount'] %>
                 </td>
                 <td>
                     <%= link_to petition['attributes']['title'], :controller => :petitions, :action => :show, :id => petition['attributes']['id'] %>

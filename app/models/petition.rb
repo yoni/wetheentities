@@ -15,11 +15,16 @@ class Petition
     JSON.parse(REDIS.get(id))
   end
 
-  def self.all(issues=[], statuses=[])
+  def self.all(issues=[], statuses=[], signatures=nil)
     Rails.logger.info "Loading petitions with issues: #{issues}"
     prefix = 'all_petitions'
 
-    criteria = {:issues => issues.sort, :statuses => statuses.sort}
+    criteria = {
+        :issues => issues.sort,
+        :statuses => statuses.sort,
+        :signatures => signatures
+    }
+
     @key = "#{prefix}:#{criteria.hash}"
 
     unless REDIS.exists(@key)
@@ -36,6 +41,12 @@ class Petition
       if statuses.any?
         petitions = petitions.select{ |petition|
           statuses.include?(petition.status)
+        }
+      end
+
+      unless signatures.nil?
+        petitions = petitions.select{ |petition|
+          petition.signature_count >= signatures
         }
       end
 

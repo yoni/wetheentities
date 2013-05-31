@@ -19,7 +19,8 @@ class PetitionsController < ApplicationController
   def index
     @issues = params[:issues] || []
     @statuses = params[:statuses] || []
-    @collection = Petition.all(@issues, @statuses)
+    @signatures = params[:signatures].to_i
+    @collection = Petition.all(@issues, @statuses, @signatures)
     respond_to do |format|
       format.html
       format.json {
