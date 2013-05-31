@@ -7,8 +7,29 @@ class PetitionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:petition)
   end
   def test_get_json
-    get(:show, { :id => WeThePeopleHelper::EXAMPLE_PETITION_ID, :format => 'json'})
+    get(:show, {:id => WeThePeopleHelper::EXAMPLE_PETITION_ID, :format => 'json'})
     assert_response :success
     assert_not_nil assigns(:petition)
+  end
+  def test_index
+    get(:index)
+    assert_response :success
+    assert_not_nil assigns(:collection)
+    assert_not_nil assigns(:issues)
+    assert_not_nil assigns(:statuses)
+    assert_not_nil assigns(:signatures)
+  end
+  def test_index_json
+    get(:index, {:format => 'json'})
+    assert_response :success
+    assert_not_nil assigns(:collection)
+  end
+  def test_index_with_all_criteria
+    get(:index, {:issues => ['Health Care'], :statuses => ['responded'], :signatures => 1000})
+    assert_response :success
+    assert_not_nil assigns(:collection)
+    assert_not_nil assigns(:issues)
+    assert_not_nil assigns(:statuses)
+    assert_not_nil assigns(:signatures)
   end
 end
