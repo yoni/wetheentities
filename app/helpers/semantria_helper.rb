@@ -32,7 +32,7 @@ module SemantriaHelper
     # We also will use compression.
     # Opening a new session for each request so that we don't have any concurrency issues. We might relax this
     # once we've got a stable release.
-    session = Session.new(CONSUMER_KEY, CONSUMER_SECRET, 'WeTheEntities', true)
+    session = Session.new(CONSUMER_KEY, CONSUMER_SECRET, 'WeTheEntities')
     # Initialize session callback handlers
     callback = SessionCallbackHandler.new()
     session.setCallbackHandler(callback)

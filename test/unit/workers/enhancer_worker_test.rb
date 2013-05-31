@@ -13,11 +13,12 @@ class EnhancerWorkerTest < ActionView::TestCase
    before the 19th. Oh well sounds like i\'m not missing much ...lol'
         }
     }
-    REDIS.set(@petition['attributes']['id'], @petition.to_json)
+    @id = @petition['attributes']['id']
+    REDIS.set(@id, @petition.to_json)
   end
 
   def teardown
-    REDIS.del(@petition['attributes']['id'])
+    REDIS.del(@id)
   end
 
   # see https://github.com/mperham/sidekiq/wiki/Testing
@@ -29,5 +30,7 @@ class EnhancerWorkerTest < ActionView::TestCase
     assert_equal @petition['attributes']['id'], EnhancerWorker.jobs[0]['args'][0]
     EnhancerWorker.drain
     assert_equal 0, EnhancerWorker.jobs.size
+    petition = REDIS.get(@id)
+    assert petition['analysis_complete']
   end
 end

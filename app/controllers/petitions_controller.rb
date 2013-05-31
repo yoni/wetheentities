@@ -17,15 +17,26 @@ class PetitionsController < ApplicationController
   end
 
   def index
-    @petitions = Petition.all
+    @collection = Petition.all
     respond_to do |format|
       format.html
       format.json {
-        render :json => @petitions.to_json
+        render :json => @collection.to_json
       }
     end
   end
 
+
+  def issue
+    @issue = params[:issue]
+    @collection = Petition.issue 'Human Rights'
+    respond_to do |format|
+      format.html
+      format.json {
+        render :json => @collection.to_json
+      }
+    end
+  end
   private
 
   def class_from_sentiment(entity)

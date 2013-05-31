@@ -17,9 +17,15 @@ class Petition
   end
 
   def self.all
-    Rails.cache.fetch('petitions', :expires_in => PETITION_CACHE_TIME) do
-      WeThePeople::Resources::Petition.all
+    @key = 'all_petitions'
+    unless REDIS.exists(@key)
+      Rails.logger.info 'Redis miss. Loading petition from the We the People API.'
+      petitions = WeThePeople::Resources::Petition.all.sort{|a,b| b.created <=> a.created}.first(100).map{|petition| JSON.parse(petition.to_json)}
+      collection = {:key => @key, :petitions => petitions}
+      REDIS.set(@key, collection.to_json)
+      CollectionEnhancerWorker.perform_async(@key)
     end
+    JSON.parse(REDIS.get(@key))
   end
 
 end
