@@ -7,12 +7,25 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<h2>We the Entities</h2>
-<%= link_to 'Home', :root %> |
-<%= link_to 'Petition Browser', :controller => :petitions, :action => :index%> |
-<%= link_to 'Developer API', :controller => :home, :action => :api %> |
-<%= link_to 'About', :controller => :home, :action => :about %>
-<hr />
+<div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="#">We the Entities</a>
+        <ul class="nav">
+            <li>
+                <%= link_to 'Home', :root %>
+            </li>
+            <li>
+                <%= link_to 'Petition Browser', :controller => :petitions, :action => :index%>
+            </li>
+            <li>
+                <%= link_to 'Developer API', :controller => :home, :action => :api %>
+            </li>
+            <li>
+                <%= link_to 'About', :controller => :home, :action => :about %>
+            </li>
+        </ul>
+    </div>
+</div>
 
 <%= yield %>
 
