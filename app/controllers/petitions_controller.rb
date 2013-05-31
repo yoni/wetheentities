@@ -17,6 +17,7 @@ class PetitionsController < ApplicationController
   end
 
   def index
+    @criteria_used = params[:issues] || params[:statuses] || params[:signatures]
     @issues = params[:issues] || []
     @statuses = params[:statuses] || []
     @signatures = params[:signatures].to_i

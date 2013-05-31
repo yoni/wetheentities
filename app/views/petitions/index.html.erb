@@ -1,14 +1,45 @@
-<h3>Criteria</h3>
-<p>Issues selected: <%= @issues.join ', ' %></p>
-<p>Statuses selected: <%= @statuses.join ', ' %></p>
-<p>Signature threshold: <%= @signatures %></p>
+<div>
+    <ul>
+        <% if @criteria_used %>
+            <li>
+                <a href="#criteria">Criteria</a>
+            </li>
+        <% end %>
+        <% if @collection['analysis_complete'] %>
+            <% if @collection['semantria']['entities'] %>
+                <li>
+                    <a href="#entities">Entities</a>
+                </li>
+            <% end %>
+            <% if @collection['semantria']['themes'] %>
+                <li>
+                    <a href="#themes">Themes</a>
+                </li>
+            <% end %>
+            <% if @collection['semantria']['facets'] %>
+                <li>
+                    <a href="#facets">Facets</a>
+                </li>
+            <% end %>
+        <% end %>
+        <li>
+            <a href="#petitions">Matching Petitions</a>
+        </li>
+    </ul>
+</div>
+<% if @criteria_used %>
+    <h3 id="criteria">Criteria</h3>
+    <p>Issues selected: <%= @issues.join ', ' %></p>
+    <p>Statuses selected: <%= @statuses.join ', ' %></p>
+    <p>Signature threshold: <%= @signatures %></p>
+<% end %>
 <% if @collection['petitions'].empty? %>
     <p>No petitions matching criteria.</p>
 <% else %>
     <p><%= @collection['petitions'].size %> petitions matching criteria</p>
     <% if @collection['analysis_complete'] %>
         <% if @collection['semantria']['entities'] %>
-            <h3>Top Entities</h3>
+            <h3 id="entities">Entities</h3>
             <table class='table'>
                 <thead>
                 <tr>
@@ -46,8 +77,8 @@
                 </tbody>
             </table>
         <% end %>
-        <% if @collection['semantria']['entities'] %>
-            <h3>Top Themes</h3>
+        <% if @collection['semantria']['themes'] %>
+            <h3 id='themes'>Themes</h3>
             <table class='table'>
                 <thead>
                 <tr>
@@ -82,7 +113,7 @@
             </table>
         <% end %>
         <% if @collection['semantria']['facets'] %>
-            <h3>Top Facets</h3>
+            <h3 id='facets'>Facets</h3>
             <table class='table'>
                 <thead>
                 <tr>
@@ -129,7 +160,7 @@
         </button>
         <meta http-equiv="refresh" content="3" >
     <% end %>
-    <h3>Petitions</h3>
+    <h3 id="petitions">Petitions</h3>
     <p>
     <table class='table'>
         <thead>
