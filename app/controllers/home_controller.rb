@@ -1,7 +1,6 @@
 class HomeController < ApplicationController
   caches_page :index
   def index
-    @petitions = WeThePeople::Resources::Petition.all
   end
   def api
     @petition_id = WeThePeopleHelper::EXAMPLE_PETITION_ID
