@@ -90,7 +90,7 @@
                 </thead>
                 <tbody>
                 <% @collection['semantria']['themes'].each do |theme| %>
-                    <tr class="<%= class_from_sentiment theme %>">
+                    <tr class="<%= tr_class_from_sentiment theme %>">
                         <td>
                             <%= theme['title'] %>
                         </td>

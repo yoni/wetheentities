@@ -37,7 +37,7 @@ class PetitionsController < ApplicationController
 
   private
 
-  def class_from_sentiment(entity)
+  def tr_class_from_sentiment(entity)
     case entity['sentiment_polarity']
       when 'negative'
         'error'
@@ -47,6 +47,29 @@ class PetitionsController < ApplicationController
         ''
     end
   end
-  helper_method :class_from_sentiment
+  helper_method :tr_class_from_sentiment
 
+  def badge_class_from_sentiment(entity)
+    case entity['sentiment_polarity']
+      when 'negative'
+        'badge badge-important'
+      when 'positive'
+        'badge badge-success'
+      else
+        'badge'
+    end
+  end
+  helper_method :badge_class_from_sentiment
+
+  def label_class_from_sentiment(entity)
+    case entity['sentiment_polarity']
+      when 'negative'
+        'label label-important'
+      when 'positive'
+        'label label-success'
+      else
+        'label'
+    end
+  end
+  helper_method :label_class_from_sentiment
 end
