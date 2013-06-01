@@ -1,4 +1,5 @@
 require 'we_the_people'
+require 'digest'
 
 class Petition
 
@@ -30,7 +31,6 @@ class Petition
         :date => Date.today
     }
 
-    require 'digest'
 
     # Compute a complete digest
     digest = Digest::MD5.hexdigest criteria.to_json
@@ -40,7 +40,10 @@ class Petition
     Rails.logger.info "Loading petitions with criteria: #{criteria} identified by key: #{@key}"
 
     unless REDIS.exists(@key)
-      petitions = WeThePeople::Resources::Petition.all
+      petitions = WeThePeople::Resources::Petition.cursor.get_all
+      petitions = petitions.uniq_by{ |p| p.id }
+
+      Rails.logger.info "Loaded #{petitions.length} petitions."
 
       if issues.any?
         petitions = petitions.select{ |petition|
