@@ -10,9 +10,11 @@ class PetitionsController < ApplicationController
         @json = JSON.pretty_generate(@petition)
         @json_highlighted = CodeRay.scan(@json, :json).div
       }
-      format.json {
-        render :json => @petition.to_json
-      }
+      if params[:callback]
+        format.js { render :json => @petition.to_json, :callback => params[:callback] }
+      else
+        format.json { render :json => @petition.to_json }
+      end
     end
   end
 
