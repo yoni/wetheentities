@@ -5,7 +5,8 @@ class Petition
 
   attr_accessor :id
 
-  MAX_LIMIT = 100
+  MAX_LIMIT = 1000
+
   # Semantria allows for ids which do not exceed 36 characters. We use MD5, which generates 32 characters, leaving
   # us with a 4-character prefix limit.
   COLLECTION_CACHE_PREFIX = 'col'
