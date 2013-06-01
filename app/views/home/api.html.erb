@@ -1,11 +1,24 @@
 <h3>Developer API</h3>
+<h5>Petition</h5>
 <pre>
     <%= petition_path(:id=> ':id') %><b>[.json]</b>
 </pre>
 <p>For example, to retrieve the text analysis for petition with id '<%= @petition_id %>':</p>
 <pre>
-    <%= link_to @example_path, @example_path %>
-    <%= link_to @example_json_path, @example_json_path %>
+    <%= link_to @example_petition_path, @example_petition_path %>
+    <%= link_to @example_petition_json_path, @example_petition_json_path %>
+</pre>
+<p>To retrieve text analysis for a collection of petitions:</p>
+<pre>
+    <%= link_to @example_collection_path, @example_collection_path %>
+    <%= link_to @example_collection_json_path, @example_collection_json_path %>
+</pre>
+<p>In addition, you may filter the collection of signatures used for text analysis, for example finding entities
+for only health-related petitions. Issue, status, and signature counts are supported as collection filters:</p>
+<pre>
+    <%= link_to @example_collection_issues_filter_path, @example_collection_issues_filter_path %>
+    <%= link_to @example_collection_statuses_filter_path, @example_collection_statuses_filter_path %>
+    <%= link_to @example_collection_signatures_filter_path, @example_collection_signatures_filter_path %>
 </pre>
 <p>
     Please note that analysis of petition text is performed asynchronously via calls to external APIs.
@@ -13,6 +26,9 @@
     In order to check for analysis results, use the <code>analysis_complete</code> key in the result. If
     <code>analysis_complete</code> is not set, re-run the API call after a few seconds.
     Once analysis has been run for a petition, the results will persist across subsequent calls.
+</p>
+<p>
+    Requests for collections are cached on a daily basis.
 </p>
 <h5>JavaScript API client examples</h5>
 <ul>
