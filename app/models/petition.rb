@@ -15,7 +15,7 @@ class Petition
     JSON.parse(REDIS.get(id))
   end
 
-  def self.all(issues=[], statuses=[], signatures=nil, limit=1000)
+  def self.all(issues=[], statuses=[], signatures=nil, limit=999)
     Rails.logger.info "Loading petitions with issues: #{issues}"
     prefix = 'all_petitions'
 
