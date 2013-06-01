@@ -13,3 +13,6 @@
  *= require_tree .
  */
 
+#content {
+    padding-left: 20px;
+}
