@@ -21,7 +21,7 @@
             <% end %>
         <% end %>
         <li>
-            <a href="#petitions">Matching Petitions</a>
+            <a href="#petitions">Matching Petitions <span class='badge badge-info'><%= @collection['petitions'].size %></span></a>
         </li>
     </ul>
 </div>
@@ -33,13 +33,10 @@
     <p>Statuses: <%= @statuses.join ', ' %></p>
 <% end %>
 <% if @signatures != 0 %>
-    <p>Signature threshold: <%= @signatures %></p>
+    <p>Signatures <span class='badge'><%= @signatures%></span></p>
 <% end %>
-<p>Limit: <%= @limit %></p>
-<% if @collection['petitions'].empty? %>
-    <p>No petitions matching criteria.</p>
-<% else %>
-    <p><%= @collection['petitions'].size %> petitions matching criteria</p>
+<p>Limit <span class='badge'><%= @limit %></span></p>
+<% if @collection['petitions'].any? %>
     <% if @collection['analysis_complete'] %>
         <% if @collection['semantria']['entities'] %>
             <h3 id="entities">Entities</h3>
