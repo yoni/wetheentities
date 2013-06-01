@@ -32,4 +32,10 @@ class PetitionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:statuses)
     assert_not_nil assigns(:signatures)
   end
+  def test_clear_collections_cache
+    key = 'all_petitions:1234'
+    REDIS.set(key, 'foo')
+    CacheHelper.clear_collections_cache
+    assert !REDIS.exists(key)
+  end
 end
