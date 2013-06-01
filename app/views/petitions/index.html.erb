@@ -1,10 +1,8 @@
 <div>
     <ul>
-        <% if @criteria_used %>
-            <li>
-                <a href="#criteria">Criteria</a>
-            </li>
-        <% end %>
+        <li>
+            <a href="#criteria">Criteria</a>
+        </li>
         <% if @collection['analysis_complete'] %>
             <% if @collection['semantria']['entities'] %>
                 <li>
@@ -27,12 +25,17 @@
         </li>
     </ul>
 </div>
-<% if @criteria_used %>
-    <h3 id="criteria">Criteria</h3>
-    <p>Issues selected: <%= @issues.join ', ' %></p>
-    <p>Statuses selected: <%= @statuses.join ', ' %></p>
+<h3 id="criteria">Criteria</h3>
+<% if @issues.any? %>
+    <p>Issues: <%= @issues.join ', ' %></p>
+<% end %>
+<% if @statuses.any? %>
+    <p>Statuses: <%= @statuses.join ', ' %></p>
+<% end %>
+<% if @signatures != 0 %>
     <p>Signature threshold: <%= @signatures %></p>
 <% end %>
+<p>Limit: <%= @limit %></p>
 <% if @collection['petitions'].empty? %>
     <p>No petitions matching criteria.</p>
 <% else %>

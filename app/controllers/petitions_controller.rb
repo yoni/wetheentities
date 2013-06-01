@@ -17,11 +17,11 @@ class PetitionsController < ApplicationController
   end
 
   def index
-    @criteria_used = params[:issues] || params[:statuses] || params[:signatures]
     @issues = params[:issues] || []
     @statuses = params[:statuses] || []
     @signatures = params[:signatures].to_i
-    @collection = Petition.all(@issues, @statuses, @signatures)
+    @limit = params[:limit].to_i || Petition::MAX_LIMIT
+    @collection = Petition.all(@issues, @statuses, @signatures, @limit)
     respond_to do |format|
       format.html
       format.json {

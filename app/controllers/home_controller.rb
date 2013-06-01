@@ -13,6 +13,7 @@ class HomeController < ApplicationController
     @example_collection_issues_filter_path = clean_path(petitions_path(:issues => ['Health Care', 'Family'], :only_path => false))
     @example_collection_statuses_filter_path = clean_path(petitions_path(:statuses => ['responded', 'pending response'], :only_path => false))
     @example_collection_signatures_filter_path = clean_path(petitions_path(:signatures => 10000, :only_path => false))
+    @example_collection_limit_filter_path = clean_path(petitions_path(:limit => 10, :only_path => false))
   end
 
   private
