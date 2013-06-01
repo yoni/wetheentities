@@ -5,6 +5,7 @@ class Petition
   attr_accessor :id
 
   PETITION_CACHE_TIME = 10.minute
+  DEFAULT_LIMIT = 100
 
   def self.find(id)
     unless REDIS.exists(id)
@@ -15,7 +16,7 @@ class Petition
     JSON.parse(REDIS.get(id))
   end
 
-  def self.all(issues=[], statuses=[], signatures=nil, limit=500)
+  def self.all(issues=[], statuses=[], signatures=nil, limit=DEFAULT_LIMIT)
     Rails.logger.info "Loading petitions with issues: #{issues}"
     prefix = 'all_petitions'
 
