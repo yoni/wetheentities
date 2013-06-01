@@ -61,16 +61,16 @@
                             <%= entity['type'] %>
                         </td>
                         <td>
-                            <%= entity['count'] %>
+                            <span class='badge badge-info'><%= entity['count'] %></span>
                         </td>
                         <td>
-                            <%= entity['negative_count'] %>
+                            <span class='badge badge-important'><%= entity['negative_count'] %></span>
                         </td>
                         <td>
-                            <%= entity['neutral_count'] %>
+                            <span class='badge'><%= entity['neutral_count'] %></span>
                         </td>
                         <td>
-                            <%= entity['positive_count'] %>
+                            <span class='badge badge-success'><%= entity['positive_count'] %></span>
                         </td>
                     </tr>
                 <% end %>
@@ -91,7 +91,7 @@
                 </thead>
                 <tbody>
                 <% @collection['semantria']['themes'].each do |theme| %>
-                    <tr>
+                    <tr class="<%= class_from_sentiment theme %>">
                         <td>
                             <%= theme['title'] %>
                         </td>
@@ -120,8 +120,8 @@
                     <th>Label</th>
                     <th>Count</th>
                     <th>Negative Count</th>
-                    <th>Positive Count</th>
                     <th>Neutral Count</th>
+                    <th>Positive Count</th>
                     <th>Attributes</th>
                 </tr>
                 </thead>
@@ -132,16 +132,16 @@
                             <%= facet['label'] %>
                         </td>
                         <td>
-                            <%= facet['count'] %>
+                            <span class='badge badge-info'><%= facet['count'] %></span>
                         </td>
                         <td>
-                            <%= facet['negative_count'] %>
+                            <span class='badge badge-important'><%= facet['negative_count'] %></span>
                         </td>
                         <td>
-                            <%= facet['positive_count'] %>
+                            <span class='badge'><%= facet['neutral_count'] %></span>
                         </td>
                         <td>
-                            <%= facet['neutral_count'] %>
+                            <span class='badge badge-success'><%= facet['positive_count'] %></span>
                         </td>
                         <td>
                             <% if facet['attributes'] %>
