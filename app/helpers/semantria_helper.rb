@@ -43,6 +43,7 @@ module SemantriaHelper
   def statistics
     session.getStatistics
   end
+  module_function :statistics
 
   %w(document collection).each do |name|
     class_eval <<EOF
