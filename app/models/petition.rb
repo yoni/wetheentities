@@ -4,8 +4,10 @@ class Petition
 
   attr_accessor :id
 
-  PETITION_CACHE_TIME = 10.minute
-  DEFAULT_LIMIT = 100
+  MAX_LIMIT = 100
+  # Semantria allows for ids which do not exceed 36 characters. We use MD5, which generates 32 characters, leaving
+  # us with a 4-character prefix limit.
+  COLLECTION_CACHE_PREFIX = 'col'
 
   def self.find(id)
     key = "petition:#{id}"
@@ -17,9 +19,8 @@ class Petition
     JSON.parse(REDIS.get(key))
   end
 
-  def self.all(issues=[], statuses=[], signatures=nil, limit=DEFAULT_LIMIT)
-    Rails.logger.info "Loading petitions with issues: #{issues}"
-    prefix = 'all_petitions'
+  def self.all(issues=[], statuses=[], signatures=nil, limit=MAX_LIMIT)
+    raise "Limit is above the maximum allowable limit of #{MAX_LIMIT}" if limit > MAX_LIMIT
 
     criteria = {
         :issues => issues.sort,
@@ -29,7 +30,14 @@ class Petition
         :date => Date.today
     }
 
-    @key = "#{prefix}:#{criteria.hash}"
+    require 'digest'
+
+    # Compute a complete digest
+    digest = Digest::MD5.hexdigest criteria.to_json
+
+    @key = "#{COLLECTION_CACHE_PREFIX}:#{digest}"
+
+    Rails.logger.info "Loading petitions with criteria: #{criteria} identified by key: #{@key}"
 
     unless REDIS.exists(@key)
       petitions = WeThePeople::Resources::Petition.all
