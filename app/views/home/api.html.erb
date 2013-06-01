@@ -35,7 +35,14 @@ for only health-related petitions. <code>issues</code>, <code>statuses</code>, <
 <hr />
 <p class='text-warning'>
     The collection <code>limit</code> must be set at no higher than <%= Petition::MAX_LIMIT %> due to restrictions from the semantic analysis
-    providers.
+    providers. The limit filter is applied to petitions and sorted by recency. I.e. the latest <code>limit</code>
+    petitions will be used.
+</p>
+<p class='text-warning'>
+    Requests for collections are cached on a daily basis.
+</p>
+<p class='text-warning'>
+    Requests for petitions are cached indefinitely.
 </p>
 <p>
     Please note that analysis of petition text is performed asynchronously via calls to external APIs.
@@ -44,10 +51,3 @@ for only health-related petitions. <code>issues</code>, <code>statuses</code>, <
     <code>analysis_complete</code> is not set, re-run the API call after a few seconds.
     Once analysis has been run for a petition, the results will persist across subsequent calls.
 </p>
-<p class='text-warning'>
-    Requests for collections are cached on a daily basis.
-</p>
-<p class='text-warning'>
-    Requests for petitions are cached indefinitely.
-</p>
-
