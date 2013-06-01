@@ -8,12 +8,13 @@ class Petition
   DEFAULT_LIMIT = 100
 
   def self.find(id)
-    unless REDIS.exists(id)
+    key = "petition:#{id}"
+    unless REDIS.exists(key)
       petition = WeThePeople::Resources::Petition.find(id)
-      REDIS.set(id, petition.to_json)
-      EnhancerWorker.perform_async(id)
+      REDIS.set(key, petition.to_json)
+      EnhancerWorker.perform_async(key)
     end
-    JSON.parse(REDIS.get(id))
+    JSON.parse(REDIS.get(key))
   end
 
   def self.all(issues=[], statuses=[], signatures=nil, limit=DEFAULT_LIMIT)
