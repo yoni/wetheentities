@@ -15,7 +15,7 @@ class Petition
     JSON.parse(REDIS.get(id))
   end
 
-  def self.all(issues=[], statuses=[], signatures=nil)
+  def self.all(issues=[], statuses=[], signatures=nil, limit=1000)
     Rails.logger.info "Loading petitions with issues: #{issues}"
     prefix = 'all_petitions'
 
@@ -23,6 +23,7 @@ class Petition
         :issues => issues.sort,
         :statuses => statuses.sort,
         :signatures => signatures,
+        :limit => limit,
         :date => Date.today
     }
 
@@ -51,7 +52,7 @@ class Petition
         }
       end
 
-      petitions = petitions.sort{|a,b| b.created <=> a.created}.first(100)
+      petitions = petitions.sort{|a,b| b.created <=> a.created}.first(limit)
       petitions = petitions.map{|petition| JSON.parse(petition.to_json)}
       collection = {:key => @key, :petitions => petitions}
       REDIS.set(@key, collection.to_json)
