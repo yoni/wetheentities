@@ -11,7 +11,7 @@ class PetitionsController < ApplicationController
         @json_highlighted = CodeRay.scan(@json, :json).div
       }
       if params[:callback]
-        format.jsonp { render :json => @petition.to_json, :callback => params[:callback] }
+        format.js { render :json => @petition.to_json, :callback => params[:callback] }
       else
         format.json { render :json => @petition.to_json }
       end
