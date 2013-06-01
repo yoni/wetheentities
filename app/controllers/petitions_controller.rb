@@ -27,9 +27,11 @@ class PetitionsController < ApplicationController
     @collection = Petition.all(@issues, @statuses, @signatures, @limit)
     respond_to do |format|
       format.html
-      format.json {
-        render :json => @collection.to_json
-      }
+      if params[:callback]
+        format.js { render :json => @collection.to_json, :callback => params[:callback] }
+      else
+        format.json { render :json => @collection.to_json }
+      end
     end
   end
 
