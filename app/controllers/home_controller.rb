@@ -9,7 +9,7 @@ class HomeController < ApplicationController
     @example_petition_json_path = petition_path(:id=> @petition_id, :only_path => false, :format => 'json')
 
     @example_collection_path = petitions_path(:only_path => false)
-    @example_collection_json_path = petitions_path(:only_path => false)
+    @example_collection_json_path = petitions_path(:only_path => false, :format => 'json')
     @example_collection_issues_filter_path = clean_path(petitions_path(:issues => ['Health Care', 'Family'], :only_path => false))
     @example_collection_statuses_filter_path = clean_path(petitions_path(:statuses => ['responded', 'pending response'], :only_path => false))
     @example_collection_signatures_filter_path = clean_path(petitions_path(:signatures => 10000, :only_path => false))
