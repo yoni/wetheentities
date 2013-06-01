@@ -89,8 +89,7 @@ module SemantriaHelper
           Rails.logger.info "\#{status.length} #{name.pluralize} received successfully."
           total_poll_time += POLL_SECONDS
           if total_poll_time > TIMEOUT_SECONDS
-            Rails.logger.info "Reached timeout after polling for \#{total_poll_time} seconds. Returning results."
-            return results
+            raise "Reached timeout after polling for \#{total_poll_time} seconds. Returning results."
           end
         end
 
