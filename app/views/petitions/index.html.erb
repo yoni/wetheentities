@@ -85,8 +85,7 @@
                     <th>Title</th>
                     <th>Sentiment Polarity</th>
                     <th>Sentiment Score</th>
-                    <th>Themes Count</th>
-                    <th>Phrases Count</th>
+                    <th>Count</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -102,10 +101,7 @@
                             <%= theme['sentiment_score'] %>
                         </td>
                         <td>
-                            <%= theme['phrases_count'] %>
-                        </td>
-                        <td>
-                            <%= theme['themes_count'] %>
+                            <span class='badge badge-info'><%= theme['themes_count'] %></span>
                         </td>
                     </tr>
                 <% end %>
