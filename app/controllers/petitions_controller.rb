@@ -20,7 +20,8 @@ class PetitionsController < ApplicationController
     @issues = params[:issues] || []
     @statuses = params[:statuses] || []
     @signatures = params[:signatures].to_i
-    @limit = params[:limit].to_i || Petition::MAX_LIMIT
+    @limit = params[:limit] || Petition::MAX_LIMIT
+    @limit = @limit.to_i
     @collection = Petition.all(@issues, @statuses, @signatures, @limit)
     respond_to do |format|
       format.html
