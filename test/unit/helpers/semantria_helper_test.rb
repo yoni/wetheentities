@@ -81,4 +81,9 @@ class SemantriaHelperTest < ActionView::TestCase
       Rails.logger.info "  #{entity['title']} : #{entity['entity_type']} (count: #{entity['count']})"
     end
   end
+
+  test 'should be able to get API statistics' do
+    statistics = SemantriaHelper.statistics
+    assert_not_nil statistics
+  end
 end

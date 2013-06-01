@@ -40,6 +40,10 @@ module SemantriaHelper
   end
   module_function :session
 
+  def statistics
+    session.getStatistics
+  end
+
   %w(document collection).each do |name|
     class_eval <<EOF
       # Runs analysis on a single #{name}
