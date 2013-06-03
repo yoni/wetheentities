@@ -12,4 +12,8 @@ class HomeControllerTest < ActionController::TestCase
       assert_not_nil assigns("example_collection_#{filter}_filter_path".to_sym)
     end
   end
+  test "should get gallery" do
+    get :gallery
+    assert_response :success
+  end
 end

@@ -1,4 +1,8 @@
 <h3>Developer API</h3>
+<p>
+    The following details the API end points and parameters. To view example uses of the We the Entities API, check
+    out the <%= link_to 'Gallery', :controller => :home, :action => :gallery %>.
+</p>
 <h5>Petition</h5>
 <pre>
     <%= petition_path(:id=> ':id') %><b>[.json]</b>
@@ -27,14 +31,6 @@ for only health-related petitions. <code>issues</code>, <code>statuses</code>, <
 <ul>
     <li>
         <%= link_to "Sentiment", :controller => :examples, :action => :sentiment %>
-    </li>
-    <li>
-        <a href="http://heyitsgarrett.com/wethevisualization/?id=51942b9b2f2c888e2f00000c">Garrett Miller's Mapbox example single petition</a>
-        (See <a href="https://github.com/heyitsgarrett/wethevisualization">wethevisualization project on Github</a>)
-    </li>
-    <li>
-        <a href="http://heyitsgarrett.com/wethevisualization/issue.html?issue=Foreign%20Policy">Garrett Miller's Mapbox example by issue</a>
-        (See <a href="https://github.com/heyitsgarrett/wethevisualization">wethevisualization project on Github</a>)
     </li>
     <li>
         <%= link_to "Geo", :controller => :examples, :action => :geo %>

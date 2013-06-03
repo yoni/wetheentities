@@ -16,6 +16,9 @@ class HomeController < ApplicationController
     @example_collection_limit_filter_path = clean_path(petitions_path(:limit => 10, :only_path => false))
   end
 
+  def gallery
+  end
+
   private
   def clean_path(path)
     path.gsub('%5B', '[').gsub('%5D', ']')
