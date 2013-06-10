@@ -13,7 +13,13 @@ class Petition
 
   def self.find(id)
     key = "petition:#{id}"
-    unless REDIS.exists(key)
+    if REDIS.exists(key)
+      petition = JSON.parse(REDIS.get(key))
+      # Handle case where previous worker didn't complete
+      if !(petition['analysis_complete'])
+        EnhancerWorker.perform_async(key)
+      end
+    else
       petition = WeThePeople::Resources::Petition.find(id)
       REDIS.set(key, petition.to_json)
       EnhancerWorker.perform_async(key)
