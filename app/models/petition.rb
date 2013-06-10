@@ -11,8 +11,10 @@ class Petition
   # us with a 4-character prefix limit.
   COLLECTION_CACHE_PREFIX = 'col'
 
+  PETITION_CACHE_PREFIX = 'petition'
+
   def self.find(id)
-    key = "petition:#{id}"
+    key = "#{PETITION_CACHE_PREFIX}:#{id}"
     if REDIS.exists(key)
       petition = JSON.parse(REDIS.get(key))
       # Handle case where previous worker didn't complete

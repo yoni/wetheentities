@@ -4,7 +4,7 @@ class PetitionTest < ActionView::TestCase
   def setup
     @petition = WeThePeople::Resources::Petition.all.first
     @id = @petition.id
-    @key = "petition:#{@id}"
+    @key = "#{Petition::PETITION_CACHE_PREFIX}:#{@id}"
     REDIS.del @key
   end
   def teardown
