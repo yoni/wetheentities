@@ -3,7 +3,7 @@ namespace :cache do
   task :prime => :environment do
     petitions = WeThePeople::Resources::Petition.cursor.get_all
     petitions.each {|petition|
-      Petition.find(petition)
+      Petition.find(petition.id)
     }
   end
 end
