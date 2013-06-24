@@ -156,6 +156,7 @@ GEM
       activesupport (>= 3.0.0)
       json
       rest-client
+    whatlanguage (1.0.4)
     xml-simple (1.1.2)
 
 PLATFORMS
@@ -182,4 +183,5 @@ DEPENDENCIES
   sqlite3
   uglifier (>= 1.0.3)
   we_the_people (>= 0.0.4)
+  whatlanguage
   xml-simple

@@ -30,6 +30,7 @@ gem 'jquery-rails'
 gem 'calais'
 gem 'semantria_sdk'
 gem 'we_the_people', '>= 0.0.4'
+gem 'whatlanguage'
 
 # Alchemy requirements:
 gem 'xml-simple'
