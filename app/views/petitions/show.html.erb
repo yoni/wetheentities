@@ -11,12 +11,16 @@
             <a href="#petition">Petition</a>
         </li>
         <% if @petition['analysis_complete'] %>
-            <li>
-                <a href="#open_calais">Open Calais Analysis</a>
-            </li>
-            <li>
-                <a href="#semantria">Semantria Analysis</a>
-            </li>
+            <% if @petition['open_calais'] %>
+                <li>
+                    <a href="#open_calais">Open Calais Analysis</a>
+                </li>
+            <% end %>
+            <% if @petition['semantria'] %>
+                <li>
+                    <a href="#semantria">Semantria Analysis</a>
+                </li>
+            <% end %>
         <% end %>
         <li>
             <a href="#raw_json">Raw JSON</a>
