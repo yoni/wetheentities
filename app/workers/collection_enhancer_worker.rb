@@ -14,5 +14,6 @@ class CollectionEnhancerWorker
     collection['analysis_complete'] = true
 
     REDIS.set(key, collection.to_json)
+    REDIS.expire(key, 60 * 60 * 24)
   end
 end

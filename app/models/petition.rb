@@ -78,6 +78,7 @@ class Petition
       petitions = petitions.map{|petition| JSON.parse(petition.to_json)}
       collection = {:key => @key, :petitions => petitions}
       REDIS.set(@key, collection.to_json)
+      REDIS.expire(@key, 60 * 60 * 24)
       unless petitions.empty?
         CollectionEnhancerWorker.perform_async(@key)
       end
