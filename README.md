@@ -27,8 +27,11 @@ to extract information from the petition title and body.
 
 ### Live Application
 
-The We the Entities application is live at: http://wetheentities.herokuapp.com/
+The We the Entities application is live at: http://www.wetheentities.org/
 
+The underlying Heroku app is deployed to: http://wetheentities.herokuapp.com/
+
+    
 ### Issues
 
 To report problems, ask questions, track enhancements, etc. please use Github [issues](https://github.com/yoni/wetheentities/issues).
