@@ -14,10 +14,11 @@ class PetitionTest < ActionView::TestCase
   def run_enhancement
     result = Petition.find(@id)
     assert_not_nil result
-    assert_nil result['analysis_complete']
+    assert_equal false, result['analysis_complete']
+    assert_equal true, result['analysis_queued']
     EnhancerWorker.drain
     result = Petition.find(@id)
-    assert_not_nil result['analysis_complete']
+    assert_equal true, result['analysis_complete']
     result
   end
 
@@ -30,7 +31,7 @@ class PetitionTest < ActionView::TestCase
   # time
   test 'should be able to recover from a failed enhancement job by rerunning enhancement' do
     result = run_enhancement
-    result.delete('analysis_complete')
+    result.delete('analysis_queued')
     REDIS.set(@key, result.to_json)
     run_enhancement
   end

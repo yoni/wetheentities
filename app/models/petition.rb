@@ -35,8 +35,8 @@ class Petition
     JSON.parse(REDIS.get(key))
   end
 
-  def self.all(issues=[], statuses=[], signatures=nil, limit=MAX_LIMIT)
-    raise "Limit is above the maximum allowable limit of #{MAX_LIMIT}" if limit > MAX_LIMIT
+  def self.all(issues=[], statuses=[], signatures=nil, limit=MAX_LIMIT, analyze=true)
+    raise "Limit is above the maximum allowable limit of #{MAX_LIMIT}" if limit > MAX_LIMIT and analyze
 
     criteria = {
         :issues => issues.sort,
@@ -45,7 +45,6 @@ class Petition
         :limit => limit,
         :date => Date.today
     }
-
 
     # Compute a complete digest
     digest = Digest::MD5.hexdigest criteria.to_json
@@ -85,8 +84,10 @@ class Petition
       collection = {:key => @key, :petitions => petitions}
       REDIS.set(@key, collection.to_json)
       REDIS.expire(@key, 60 * 60 * 24)
-      unless petitions.empty?
-        CollectionEnhancerWorker.perform_async(@key)
+      if analyze
+        unless petitions.empty?
+          CollectionEnhancerWorker.perform_async(@key)
+        end
       end
     end
     JSON.parse(REDIS.get(@key))
