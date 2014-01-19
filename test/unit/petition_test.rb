@@ -10,25 +10,28 @@ class PetitionTest < ActionView::TestCase
   def teardown
     REDIS.del @key
   end
+
+  def run_enhancement
+    result = Petition.find(@id)
+    assert_not_nil result
+    assert_nil result['analysis_complete']
+    EnhancerWorker.drain
+    result = Petition.find(@id)
+    assert_not_nil result['analysis_complete']
+    result
+  end
+
   test 'should be able to load a petition and get its entities' do
     result = Petition.find(@id)
     assert_not_nil result
   end
-  test 'should be able to recover from a failed enhancement job by rerunning enhancement' do
-    result = Petition.find(@id)
-    assert_not_nil result
-    assert_nil result['analysis_complete']
-    EnhancerWorker.drain
-    result = Petition.find(@id)
-    assert_not_nil result['analysis_complete']
 
+  # Runs enhancement once, then deleted the analysis_complete flag, expecting that it will run the analysis a second
+  # time
+  test 'should be able to recover from a failed enhancement job by rerunning enhancement' do
+    result = run_enhancement
     result.delete('analysis_complete')
     REDIS.set(@key, result.to_json)
-    result = Petition.find(@id)
-    assert_not_nil result
-    assert_nil result['analysis_complete']
-    EnhancerWorker.drain
-    result = Petition.find(@id)
-    assert_not_nil result['analysis_complete']
+    run_enhancement
   end
 end
