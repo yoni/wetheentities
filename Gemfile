@@ -28,7 +28,7 @@ gem 'anjlab-bootstrap-rails', '>= 2.3', :require => 'bootstrap-rails'
 
 gem 'jquery-rails'
 gem 'calais'
-gem 'semantria_sdk'
+gem 'semantria_sdk', '~> 3.0.70'
 gem 'we_the_people', '>= 0.0.4'
 gem 'whatlanguage'
 

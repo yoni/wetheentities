@@ -176,7 +176,7 @@ DEPENDENCIES
   redis-store
   ruby-prof
   sass-rails (~> 3.2.3)
-  semantria_sdk
+  semantria_sdk (~> 3.0.70)
   sidekiq
   sinatra
   slim
