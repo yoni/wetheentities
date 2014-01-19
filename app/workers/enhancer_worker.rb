@@ -9,7 +9,7 @@ class EnhancerWorker
     title_and_body = "#{petition['attributes']['title']}  #{petition['attributes']['body']}"
 
     petition_language = title_and_body.language
-    if petition_language == 'English'
+    if petition_language.downcase == 'english'
       open_calais_result = OpenCalaisHelper.enhance title_and_body
       semantria_result = SemantriaHelper.enhance_document({:id => key, :text => title_and_body})
 
