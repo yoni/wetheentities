@@ -102,6 +102,15 @@ Start Rails server
 
     foreman run rails server
 
+Run tests
+
+    foreman run bundle exec rake
+
+Run an individual test
+
+    foreman run bundle exec rake TEST=path/to/test.rb
+
+
 #### License
 
 This software is distributed under the MIT License. For more information, see LICENSE
