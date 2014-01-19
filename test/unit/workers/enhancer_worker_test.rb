@@ -45,8 +45,10 @@ class EnhancerWorkerTest < ActionView::TestCase
     assert_equal @petition['attributes']['id'], EnhancerWorker.jobs[0]['args'][0]
     EnhancerWorker.drain
     assert_equal 0, EnhancerWorker.jobs.size
-    petition = REDIS.get(@id)
-    assert petition['analysis_complete']
+    petition = JSON.parse(REDIS.get(@id))
+    assert_not_nil petition['semantria']
+    assert_not_nil petition['open_calais']
+    assert_equal 'PROCESSED', petition['semantria']['status']
   end
 
   test 'should be able to avoid analyzing non-English texts' do
@@ -55,7 +57,7 @@ class EnhancerWorkerTest < ActionView::TestCase
     assert_equal 1, EnhancerWorker.jobs.size
     EnhancerWorker.drain
     assert_equal 0, EnhancerWorker.jobs.size
-    petition = REDIS.get(@non_english_petition_id)
+    petition = JSON.parse(REDIS.get(@non_english_petition_id))
     assert petition['analysis_complete']
     assert petition['semantria'].nil?
     assert petition['open_calais'].nil?

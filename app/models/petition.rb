@@ -13,18 +13,24 @@ class Petition
 
   PETITION_CACHE_PREFIX = 'petition'
 
+  def self.queue_enhancement(key, petition)
+    petition['analysis_complete'] = false
+    petition['analysis_queued'] = true
+    REDIS.set(key, petition.to_json)
+    EnhancerWorker.perform_async(key)
+  end
+
   def self.find(id)
     key = "#{PETITION_CACHE_PREFIX}:#{id}"
     if REDIS.exists(key)
       petition = JSON.parse(REDIS.get(key))
-      # Handle case where previous worker didn't complete
-      if !(petition['analysis_complete'])
-        EnhancerWorker.perform_async(key)
+      # Handle case where previous worker didn't complete. E.g. if the app was restarted.
+      unless petition['analysis_queued']
+        queue_enhancement(key, petition)
       end
     else
-      petition = WeThePeople::Resources::Petition.find(id)
-      REDIS.set(key, petition.to_json)
-      EnhancerWorker.perform_async(key)
+      petition = JSON.parse(WeThePeople::Resources::Petition.find(id).to_json)
+      queue_enhancement(key, petition)
     end
     JSON.parse(REDIS.get(key))
   end
