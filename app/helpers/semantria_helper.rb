@@ -45,6 +45,11 @@ module SemantriaHelper
   end
   module_function :statistics
 
+  def collection_limit
+    session.getSubscription['basic_settings']['collection_limit']
+  end
+  module_function :collection_limit
+
   %w(document collection).each do |name|
     class_eval <<EOF
       # Runs analysis on a single #{name}

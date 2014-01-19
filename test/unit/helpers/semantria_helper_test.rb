@@ -86,4 +86,9 @@ class SemantriaHelperTest < ActionView::TestCase
     statistics = SemantriaHelper.statistics
     assert_not_nil statistics
   end
+  test 'should be able to get API limits' do
+    limits = SemantriaHelper.collection_limit
+    assert_not_nil limits
+    assert limits > 0
+  end
 end

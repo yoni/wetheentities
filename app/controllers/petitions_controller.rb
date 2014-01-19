@@ -22,9 +22,10 @@ class PetitionsController < ApplicationController
     @issues = params[:issues] || []
     @statuses = params[:statuses] || []
     @signatures = params[:signatures].to_i
-    @limit = params[:limit] || Petition::MAX_LIMIT
+    @analyze = params[:analyze] != 'false'
+    @limit = params[:limit] || Petition::MAX_ANALYSIS_LIMIT
     @limit = @limit.to_i
-    @collection = Petition.all(@issues, @statuses, @signatures, @limit)
+    @collection = Petition.all(@issues, @statuses, @signatures, @limit, @analyze)
     respond_to do |format|
       format.html
       if params[:callback]

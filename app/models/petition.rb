@@ -5,7 +5,8 @@ class Petition
 
   attr_accessor :id
 
-  MAX_LIMIT = 100
+  MAX_ANALYSIS_LIMIT = SemantriaHelper.collection_limit
+  MAX_QUERY_LIMIT = 5000
 
   # Semantria allows for ids which do not exceed 36 characters. We use MD5, which generates 32 characters, leaving
   # us with a 4-character prefix limit.
@@ -35,8 +36,9 @@ class Petition
     JSON.parse(REDIS.get(key))
   end
 
-  def self.all(issues=[], statuses=[], signatures=nil, limit=MAX_LIMIT, analyze=true)
-    raise "Limit is above the maximum allowable limit of #{MAX_LIMIT}" if limit > MAX_LIMIT and analyze
+  def self.all(issues=[], statuses=[], signatures=nil, limit=MAX_ANALYSIS_LIMIT, analyze=true)
+    raise "Limit is above the maximum allowable limit of #{MAX_ANALYSIS_LIMIT}" if (limit > MAX_ANALYSIS_LIMIT and analyze)
+    raise "Limit is above the maximum allowable limit of #{MAX_QUERY_LIMIT}" if limit > MAX_QUERY_LIMIT
 
     criteria = {
         :issues => issues.sort,
@@ -53,44 +55,53 @@ class Petition
 
     Rails.logger.info "Loading petitions with criteria: #{criteria} identified by key: #{@key}"
 
-    unless REDIS.exists(@key)
-      petitions = WeThePeople::Resources::Petition.cursor.get_all
-      petitions = petitions.uniq_by{ |p| p.id }
-
-      Rails.logger.info "Loaded #{petitions.length} petitions."
-
-      if issues.any?
-        petitions = petitions.select{ |petition|
-          petition.issues.any? {|issue|
-            issues.include?(issue.name)
-          }
-        }
-      end
-
-      if statuses.any?
-        petitions = petitions.select{ |petition|
-          statuses.include?(petition.status)
-        }
-      end
-
-      unless signatures.nil?
-        petitions = petitions.select{ |petition|
-          petition.signature_count >= signatures
-        }
-      end
-
-      petitions = petitions.sort{|a,b| b.created <=> a.created}.first(limit)
-      petitions = petitions.map{|petition| JSON.parse(petition.to_json)}
-      collection = {:key => @key, :petitions => petitions}
-      REDIS.set(@key, collection.to_json)
-      REDIS.expire(@key, 60 * 60 * 24)
-      if analyze
+    if analyze
+      unless REDIS.exists(@key)
+        petitions = find_petitions(issues, statuses, signatures, limit)
+        collection = {:key => @key, :petitions => petitions}
+        REDIS.set(@key, collection.to_json)
+        REDIS.expire(@key, 60 * 60 * 24)
         unless petitions.empty?
           CollectionEnhancerWorker.perform_async(@key)
         end
       end
+    else
+      petitions = find_petitions(issues, statuses, signatures, limit)
+      collection = {:key => @key, :petitions => petitions}
+      return JSON.parse(collection.to_json)
     end
+
     JSON.parse(REDIS.get(@key))
   end
 
+  def self.find_petitions(issues = [], statuses = [], signatures = nil, limit=MAX_ANALYSIS_LIMIT)
+    petitions = WeThePeople::Resources::Petition.cursor.get_all
+    petitions = petitions.uniq_by{ |p| p.id }
+
+    Rails.logger.info "Loaded #{petitions.length} petitions."
+
+    if issues.any?
+      petitions = petitions.select{ |petition|
+        petition.issues.any? {|issue|
+          issues.include?(issue.name)
+        }
+      }
+    end
+
+    if statuses.any?
+      petitions = petitions.select{ |petition|
+        statuses.include?(petition.status)
+      }
+    end
+
+    unless signatures.nil?
+      petitions = petitions.select{ |petition|
+        petition.signature_count >= signatures
+      }
+    end
+
+    petitions = petitions.sort{|a,b| b.created <=> a.created}.first(limit)
+    petitions = petitions.map{|petition| JSON.parse(petition.to_json)}
+    petitions
+  end
 end

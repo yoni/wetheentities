@@ -28,6 +28,9 @@ for only health-related petitions. <code>issues</code>, <code>statuses</code>, <
     <%= link_to @example_collection_signatures_filter_path, @example_collection_signatures_filter_path %>
     <%= link_to @example_collection_limit_filter_path, @example_collection_limit_filter_path %>
 </pre>
+<p>You may also disable analysis of collections of petitions by setting the <code>analyze</code> query parameter to
+false. This inherently increases the maximal limit of petitions to <%= Petition::MAX_QUERY_LIMIT %>.
+</p>
 <hr />
 <h5>JavaScript API client examples</h5>
 <ul>
@@ -40,9 +43,9 @@ for only health-related petitions. <code>issues</code>, <code>statuses</code>, <
 </ul>
 <hr />
 <p class='text-warning'>
-    The collection <code>limit</code> must be set at no higher than <%= Petition::MAX_LIMIT %> due to restrictions from the semantic analysis
-    providers. The limit filter is applied to petitions and sorted by recency. I.e. the latest <code>limit</code>
-    petitions will be used.
+    When collection analysis is enabled, the collection <code>limit</code> must be set at no higher than
+    <%= Petition::MAX_ANALYSIS_LIMIT %> due to restrictions from the semantic analysis providers. The limit filter
+    is applied to petitions and sorted by recency. I.e. the latest <code>limit</code> petitions will be used.
 </p>
 <p class='text-warning'>
     Requests for collections are cached on a daily basis.

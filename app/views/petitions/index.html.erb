@@ -36,6 +36,7 @@
     <p>Signatures <span class='badge'><%= @signatures%></span></p>
 <% end %>
 <p>Limit <span class='badge'><%= @limit %></span></p>
+<p>Analyze <span class='badge'><%= @analyze %></span></p>
 <% if @collection['petitions'].any? %>
     <% if @collection['analysis_complete'] %>
         <% if @collection['semantria']['entities'] %>
@@ -149,12 +150,11 @@
                 </tbody>
             </table>
         <% end %>
-    <% else %>
+    <% elsif @analyze == true %>
         <button class='btn btn-info' onclick="location.reload(true);">
             <i class='icon-refresh icon-white'></i>
-            Analysis is underway. Refresh to see results. Automatic refresh in 5 seconds.
+            Analysis is underway and may take up to a minute to complete. Refresh to see results.
         </button>
-        <meta http-equiv="refresh" content="5" >
     <% end %>
     <h3 id="petitions">Petitions</h3>
     <p>
