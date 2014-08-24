@@ -67,6 +67,7 @@ module SemantriaHelper
         # Check status from Semantria service
         #{name.pluralize}.each do |#{name}|
           # Queues #{name} for processing on Semantria service
+          Rails.logger.info "Queuing #{name} \#{#{name}['id']}."
           status = session.queue#{name.capitalize}(#{name})
           # Check status from Semantria service
           if status == 202
