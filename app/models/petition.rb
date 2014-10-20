@@ -49,7 +49,7 @@ class Petition
     }
 
     # Compute a complete digest
-    digest = Digest::MD5.hexdigest criteria.to_json
+    digest = OpenSSL::Digest::MD5.hexdigest criteria.to_json
 
     @key = "#{COLLECTION_CACHE_PREFIX}:#{digest}"
 
@@ -76,7 +76,7 @@ class Petition
 
   def self.find_petitions(issues = [], statuses = [], signatures = nil, limit=MAX_ANALYSIS_LIMIT)
     petitions = WeThePeople::Resources::Petition.cursor.get_all
-    petitions = petitions.uniq_by{ |p| p.id }
+    petitions = petitions.uniq{ |p| p.id }
 
     Rails.logger.info "Loaded #{petitions.length} petitions."
 

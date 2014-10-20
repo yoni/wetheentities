@@ -1,13 +1,14 @@
 source 'https://rubygems.org'
 
-ruby '1.9.3'
-gem 'rails', '3.2.13'
+ruby '2.1.3'
+gem 'rails', '4.1.6'
 
 group :production do
   gem 'pg'
 end
 group :development do
   gem 'sqlite3'
+  gem 'foreman'
 end
 
 gem 'ruby-prof'
@@ -16,11 +17,11 @@ gem 'ruby-prof'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'coffee-rails', '~> 3.2.1'
+  gem 'coffee-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
-  gem 'sass-rails',   '~> 3.2.3'
+  gem 'sass-rails'
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -46,6 +47,9 @@ gem 'redis-rails'
 gem 'sidekiq'
 gem 'sinatra', :require => false
 gem 'slim'
+gem 'iconv'
+
+gem 'actionpack-page_caching'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
