@@ -30,9 +30,9 @@
 <h5>ID</h5>
 <%= @petition[:id] %></p>
 <h5>Title</h5>
-<p><%= @petition['attributes']['title'] %></p>
+<p><%= @petition['title'] %></p>
 <h5>Body</h5>
-<p><%= @petition['attributes']['body'] %></p>
+<p><%= @petition['body'] %></p>
 <h5>Issues</h5>
 <p><%= @petition['attributes']['issues'].map{|issue| issue['name']}.join(', ') %></p>
 <% if @petition['open_calais'] %>

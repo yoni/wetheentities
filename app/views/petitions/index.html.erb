@@ -171,16 +171,16 @@
         <% @collection['petitions'].each do |petition| %>
             <tr>
                 <td>
-                    <%= Time.at(petition['attributes']['created']).to_date %>
+                    <%= Time.at(petition['created']).to_date %>
                 </td>
                 <td>
-                    <%= petition['attributes']['status'] %>
+                    <%= petition['status'] %>
                 </td>
                 <td>
-                    <%= petition['attributes']['signatureCount'] %>
+                    <%= petition['signatureCount'] %>
                 </td>
                 <td>
-                    <%= link_to petition['attributes']['title'], :controller => :petitions, :action => :show, :id => petition['attributes']['id'] %>
+                    <%= link_to petition['title'], :controller => :petitions, :action => :show, :id => petition['id'] %>
                 </td>
             </tr>
         <% end %>

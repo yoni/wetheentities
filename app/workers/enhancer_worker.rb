@@ -7,7 +7,7 @@ class EnhancerWorker
     petition = JSON.parse(REDIS.get(key))
     Rails.logger.info "Enhancing record #{key}. Payload: #{petition.inspect}"
 
-    title_and_body = "#{petition['attributes']['title']}  #{petition['attributes']['body']}"
+    title_and_body = "#{petition['title']}  #{petition['body']}"
 
     petition_language = title_and_body.language.to_s
     if petition_language.downcase == 'english'

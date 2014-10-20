@@ -5,7 +5,7 @@ class CollectionEnhancerWorker
     collection = JSON.parse(REDIS.get(key))
 
     documents = collection['petitions'].map { |petition|
-      "#{petition['attributes']['title']}  #{petition['attributes']['body']}"
+      "#{petition['title']}  #{petition['body']}"
     }
 
     semantria_result = SemantriaHelper.enhance_collection({:id => "#{key}", :documents => documents})
